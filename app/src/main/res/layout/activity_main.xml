@@ -8,11 +8,45 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/busStopNameText"
+        android:layout_width="230dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="131dp"
+        android:layout_marginTop="583dp"
+        android:gravity="center"
+        android:text="@string/busStopPlaceholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/avatarMichal"
+        android:layout_width="309dp"
+        android:layout_height="415dp"
+        android:layout_marginTop="140dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/awatarmichal1" />
+
+    <TextView
+        android:id="@+id/busLineNoText"
+        android:layout_width="230dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="131dp"
+        android:layout_marginTop="624dp"
+        android:gravity="center"
+        android:text="@string/busLinePlaceholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/leaveTimeText"
+        android:layout_width="230dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="131dp"
+        android:layout_marginTop="664dp"
+        android:gravity="center"
+        android:text="@string/leaveTimePlaceholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
