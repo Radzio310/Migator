@@ -5,48 +5,106 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/busStopNameText"
-        android:layout_width="230dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="131dp"
-        android:layout_marginTop="583dp"
-        android:gravity="center"
-        android:text="@string/busStopPlaceholder"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
-        android:id="@+id/avatarMichal"
-        android:layout_width="309dp"
-        android:layout_height="415dp"
-        android:layout_marginTop="140dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/awatarmichal1" />
-
-    <TextView
-        android:id="@+id/busLineNoText"
-        android:layout_width="230dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="131dp"
-        android:layout_marginTop="624dp"
-        android:gravity="center"
-        android:text="@string/busLinePlaceholder"
+        android:id="@+id/settingsButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="304dp"
+        android:layout_marginTop="68dp"
+        android:contentDescription="@string/settingsDescription"
+        android:src="@drawable/settings"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/leaveTimeText"
-        android:layout_width="230dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="131dp"
-        android:layout_marginTop="664dp"
+        android:layout_width="290dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="800dp"
         android:gravity="center"
         android:text="@string/leaveTimePlaceholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/leaveTimeImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="792dp"
+        android:contentDescription="@string/leaveTimeDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/clock" />
+
+    <ImageView
+        android:id="@+id/busStopImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="672dp"
+        android:contentDescription="@string/busStopDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bus_stop" />
+
+    <TextView
+        android:id="@+id/busStopNameText"
+        android:layout_width="290dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="684dp"
+        android:gravity="center"
+        android:text="@string/busStopPlaceholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/busLineNoText"
+        android:layout_width="290dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="740dp"
+        android:gravity="center"
+        android:text="@string/busLinePlaceholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/busLineImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="732dp"
+        android:contentDescription="@string/busLineDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bus" />
+
+    <ImageView
+        android:id="@+id/avatarMichal"
+        android:layout_width="310dp"
+        android:layout_height="420dp"
+        android:layout_marginTop="148dp"
+        android:contentDescription="@string/avatarDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/awatarmichal1" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="310dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="568dp"
+        android:gravity="center_horizontal"
+        android:text="@string/signingTextPlaceholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

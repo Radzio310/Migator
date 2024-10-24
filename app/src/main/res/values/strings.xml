@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Migator</string>
+    <string name="avatarDescription">Zdjęcie Awatara Michała</string>
+    <string name="settingsDescription">Ikona ustawień</string>
+    <string name="busStopDescription">Ikona przystanku</string>
+    <string name="busLineDescription">Ikona autobusu</string>
+    <string name="leaveTimeDescription">Ikona zegara</string>
     <string name="busStopPlaceholder">Nazwa przystanku</string>
     <string name="busLinePlaceholder">Numer linii</string>
     <string name="leaveTimePlaceholder">Godzina odjazdu</string>
+    <string name="signingTextPlaceholder">Migany tekst</string>
 </resources>
