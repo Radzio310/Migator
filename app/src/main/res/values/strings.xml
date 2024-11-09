@@ -9,4 +9,8 @@
     <string name="busLinePlaceholder">Numer linii</string>
     <string name="leaveTimePlaceholder">Godzina odjazdu</string>
     <string name="signingTextPlaceholder">Migany tekst</string>
+    <string name="busStopSearchDescription">Wyszukaj przystanek</string>
+    <string name="busStopSearchPlaceholder">Nazwa przystanku</string>
+    <string name="navigationButton">Nawiguj</string>
+    <string name="searchButton">Wyszukaj</string>
 </resources>
