@@ -12,11 +12,11 @@
         android:id="@+id/settingsButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="304dp"
         android:layout_marginTop="68dp"
+        android:layout_marginEnd="44dp"
         android:contentDescription="@string/settingsDescription"
         android:src="@drawable/settings"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
