@@ -13,4 +13,5 @@
     <string name="busStopSearchPlaceholder">Nazwa przystanku</string>
     <string name="navigationButton">Nawiguj</string>
     <string name="searchButton">Wyszukaj</string>
+    <string name="busStopResultsLabel">Nadchodzące odjazdy:</string>
 </resources>
