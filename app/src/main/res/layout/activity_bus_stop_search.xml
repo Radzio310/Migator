@@ -27,7 +27,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/menu"
-            app:titleTextColor="@color/main_3" />
+            app:titleTextColor="@color/main_3"
+            app:title="@string/searchBusStop"/>
 
         <!-- LinearLayout zawierający resztę komponentów -->
         <LinearLayout
