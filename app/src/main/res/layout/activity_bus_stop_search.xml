@@ -20,8 +20,8 @@
             android:layout_width="310dp"
             android:layout_height="420dp"
             android:layout_marginLeft="35dp"
-            android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginBottom="30dp"
             android:contentDescription="@string/avatarDescription"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,9 @@
             android:id="@+id/busStopName"
             android:layout_width="380dp"
             android:layout_height="59dp"
-            android:hint="@string/busStopPlaceholder" />
+            android:autofillHints="@string/busStopNameAutofillHints"
+            android:hint="@string/busStopPlaceholder"
+            android:inputType="text" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,6 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="GoTo_busStopResult"
                 android:text="@string/searchButton" />
 
             <Button
@@ -64,6 +67,13 @@
                 android:layout_weight="1"
                 android:text="@string/navigationButton" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/goBackButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="GoTo_MainActivity"
+            android:text="@string/GoBackButton" />
 
     </LinearLayout>
 

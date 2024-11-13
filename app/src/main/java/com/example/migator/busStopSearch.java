@@ -1,6 +1,9 @@
 package com.example.migator;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,4 +24,17 @@ public class busStopSearch extends AppCompatActivity {
             return insets;
         });
     }
+
+    public void GoTo_busStopResult(View v){
+        Intent intent = new Intent(this, busStopResult.class);
+        String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
+        intent.putExtra("BusStopName", busStopName);
+        startActivity(intent);
+    }
+
+    public void GoTo_MainActivity(View v){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }
