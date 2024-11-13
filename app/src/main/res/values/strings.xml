@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Migator</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string name="GoBackButton">Powrót</string>
     <string name="avatarDescription">Zdjęcie Awatara Michała</string>
     <string name="settingsDescription">Ikona ustawień</string>
@@ -9,11 +13,18 @@
     <string name="busStopPlaceholder">Nazwa przystanku</string>
     <string name="busLinePlaceholder">Numer linii</string>
     <string name="leaveTimePlaceholder">Godzina odjazdu</string>
-    <string name="signingTextPlaceholder">Migany tekst</string>
+    <string name="signingTextPlaceholder">Tutaj będzie migany tekst</string>
     <string name="busStopSearchDescription">Wyszukaj przystanek</string>
     <string name="busStopSearchPlaceholder">Nazwa przystanku</string>
     <string name="navigationButton">Nawiguj</string>
     <string name="searchButton">Wyszukaj</string>
     <string name="busStopResultsLabel">Nadchodzące odjazdy:</string>
     <string name="busStopNameAutofillHints">Podaj nazwę przystanku</string>>
+
+    <string name="aboutApp">O aplikacji</string>
+    <string name="settings">Ustawienia aplikacji</string>
+    <string name="home">Strona główna</string>
+    <string name="searchLine">Wyszukaj linię</string>
+    <string name="searchBusStop">Wyszukaj przystanek</string>
+    <string name="map">Mapa przystanków</string>
 </resources>
