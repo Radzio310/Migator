@@ -82,9 +82,9 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
             //startActivity(intent);
             drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
         } else if(menuItem.getItemId() == R.id.nav_settings) {
-            //Intent intent = new Intent(busStopSearch.this, settings.class);
-            //startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
+            Intent intent = new Intent(busStopSearch.this, settings.class);
+            startActivity(intent);
+            drawerLayout.closeDrawer(GravityCompat.START);
         }
 
         return true;
