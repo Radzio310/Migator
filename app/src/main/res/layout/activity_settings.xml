@@ -8,10 +8,10 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="226dp"
-        android:layout_height="256dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="68dp"
+        android:layout_width="269dp"
+        android:layout_height="327dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="76dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/awatarmichal1" />
@@ -20,8 +20,8 @@
         android:id="@+id/goBackButton"
         android:layout_width="133dp"
         android:layout_height="55dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="488dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="784dp"
         android:onClick="GoTo_MainActivity"
         android:text="@string/GoBackButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,6 +93,17 @@
         android:layout_marginTop="664dp"
         android:gravity="start|center_vertical"
         android:text="Opcja3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="259dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="408dp"
+        android:gravity="center"
+        android:text="@string/signingTextPlaceholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
