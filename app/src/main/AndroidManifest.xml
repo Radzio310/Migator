@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Migator"
         tools:targetApi="31">
         <activity
+            android:name=".settings"
+            android:exported="false" />
+        <activity
             android:name=".busStopResult"
             android:exported="false" />
         <activity
