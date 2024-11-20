@@ -52,7 +52,7 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.setCheckedItem(R.id.nav_searchBusStop);
+        navigationView.setCheckedItem(R.id.nav_searchLine);
     }
 
     @Override
@@ -71,10 +71,9 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
             Intent intent = new Intent(lineSearch.this, MainActivity.class);
             startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_searchBusStop) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else if(menuItem.getItemId() == R.id.nav_searchLine) {
-            Intent intent = new Intent(lineSearch.this, lineSearch.class);
+            Intent intent = new Intent(lineSearch.this, busStopSearch.class);
             startActivity(intent);
+        } else if(menuItem.getItemId() == R.id.nav_searchLine) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else if(menuItem.getItemId() == R.id.nav_map) {
             //Intent intent = new Intent(busStopSearch.this, busStopMap.class);
@@ -83,7 +82,6 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
         } else if(menuItem.getItemId() == R.id.nav_settings) {
             Intent intent = new Intent(lineSearch.this, settings.class);
             startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START);
         }
 
         return true;

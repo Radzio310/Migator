@@ -79,7 +79,6 @@ public class busStopResult extends AppCompatActivity implements NavigationView.O
         } else if(menuItem.getItemId() == R.id.nav_searchLine) {
             Intent intent = new Intent(busStopResult.this, lineSearch.class);
             startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START);
         } else if(menuItem.getItemId() == R.id.nav_map) {
             //Intent intent = new Intent(busStopResult.this, busStopMap.class);
             //startActivity(intent);
@@ -87,7 +86,6 @@ public class busStopResult extends AppCompatActivity implements NavigationView.O
         } else if(menuItem.getItemId() == R.id.nav_settings) {
             Intent intent = new Intent(busStopResult.this, settings.class);
             startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
         }
 
         return true;

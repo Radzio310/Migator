@@ -70,15 +70,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if(menuItem.getItemId() == R.id.nav_searchLine) {
             Intent intent = new Intent(MainActivity.this, lineSearch.class);
             startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START);
         } else if(menuItem.getItemId() == R.id.nav_map) {
             //Intent intent = new Intent(MainActivity.this, busStopMap.class);
             //startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START);
+            drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
         } else if(menuItem.getItemId() == R.id.nav_settings) {
             Intent intent = new Intent(MainActivity.this, settings.class);
             startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START);
         }
 
         return true;

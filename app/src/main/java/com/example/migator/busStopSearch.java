@@ -77,7 +77,6 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         } else if(menuItem.getItemId() == R.id.nav_searchLine) {
             Intent intent = new Intent(busStopSearch.this, lineSearch.class);
             startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START);
         } else if(menuItem.getItemId() == R.id.nav_map) {
             //Intent intent = new Intent(busStopSearch.this, busStopMap.class);
             //startActivity(intent);
@@ -85,7 +84,6 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         } else if(menuItem.getItemId() == R.id.nav_settings) {
             Intent intent = new Intent(busStopSearch.this, settings.class);
             startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START);
         }
 
         return true;
