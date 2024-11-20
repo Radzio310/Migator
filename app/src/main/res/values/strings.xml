@@ -16,10 +16,11 @@
     <string name="signingTextPlaceholder">Tutaj będzie migany tekst</string>
     <string name="busStopSearchDescription">Wyszukaj przystanek</string>
     <string name="busStopSearchPlaceholder">Nazwa przystanku</string>
+    <string name="busLineSearchDescription">Wyszukaj linię</string>
     <string name="navigationButton">Nawiguj</string>
     <string name="searchButton">Wyszukaj</string>
     <string name="busStopResultsLabel">Nadchodzące odjazdy:</string>
-    <string name="busStopNameAutofillHints">Podaj nazwę przystanku</string>>
+    <string name="busStopNameAutofillHints">Podaj nazwę przystanku</string>
 
     <string name="aboutApp">O aplikacji</string>
     <string name="settings">Ustawienia aplikacji</string>

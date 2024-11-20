@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/goBackButton"
+        android:layout_width="197dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="107dp"
+        android:layout_marginTop="821dp"
+        android:onClick="GoTo_lineSearch"
+        android:text="@string/GoBackButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/avatarMichal"
+        android:layout_width="310dp"
+        android:layout_height="420dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="104dp"
+        android:contentDescription="@string/avatarDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/awatarmichal1" />
+
+    <TextView
+        android:id="@+id/currentBusLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="584dp"
+        android:fontFamily="@font/baloo"
+        android:hint="@string/busLinePlaceholder"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:textColor="@color/main"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="548dp"
+        android:gravity="center"
+        android:text="@string/signingTextPlaceholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

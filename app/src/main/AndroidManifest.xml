@@ -16,6 +16,12 @@
             android:name=".settings"
             android:exported="false" />
         <activity
+            android:name=".lineSearch"
+            android:exported="false" />
+        <activity
+            android:name=".lineResult"
+            android:exported="false" />
+        <activity
             android:name=".busStopResult"
             android:exported="false" />
         <activity

@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -74,9 +75,9 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         } else if(menuItem.getItemId() == R.id.nav_searchBusStop) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else if(menuItem.getItemId() == R.id.nav_searchLine) {
-            //Intent intent = new Intent(busStopSearch.this, lineSearch.class);
-            //startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
+            Intent intent = new Intent(busStopSearch.this, lineSearch.class);
+            startActivity(intent);
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else if(menuItem.getItemId() == R.id.nav_map) {
             //Intent intent = new Intent(busStopSearch.this, busStopMap.class);
             //startActivity(intent);
@@ -93,8 +94,13 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
     public void GoTo_busStopResult(View v){
         Intent intent = new Intent(this, busStopResult.class);
         String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
-        intent.putExtra("BusStopName", busStopName);
-        startActivity(intent);
+        if (busStopName.isEmpty()){
+            Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
+        } else {
+            intent.putExtra("BusStopName", busStopName);
+            startActivity(intent);
+        }
+
     }
 
     public void GoTo_MainActivity(View v){

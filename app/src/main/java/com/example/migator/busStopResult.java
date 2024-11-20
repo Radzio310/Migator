@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +31,7 @@ public class busStopResult extends AppCompatActivity implements NavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_stop_result);
+        ((TextView) findViewById(R.id.currentBusStopName)).setText(getIntent().getStringExtra("BusStopName"));
 
         /*--------------------HOOKS---------------------*/
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -75,9 +77,9 @@ public class busStopResult extends AppCompatActivity implements NavigationView.O
             Intent intent = new Intent(busStopResult.this, busStopSearch.class);
             startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_searchLine) {
-            //Intent intent = new Intent(busStopResult.this, lineSearch.class);
-            //startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
+            Intent intent = new Intent(busStopResult.this, lineSearch.class);
+            startActivity(intent);
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else if(menuItem.getItemId() == R.id.nav_map) {
             //Intent intent = new Intent(busStopResult.this, busStopMap.class);
             //startActivity(intent);
