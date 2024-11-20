@@ -1,110 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".settings"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="269dp"
-        android:layout_height="327dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="76dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/main"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/menu"
+            app:title="@string/settings"
+            app:titleTextColor="@color/main_3" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="269dp"
+            android:layout_height="327dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="76dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/awatarmichal1" />
+
+        <Button
+            android:id="@+id/goBackButton"
+            android:layout_width="133dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="148dp"
+            android:layout_marginTop="784dp"
+            android:onClick="GoTo_MainActivity"
+            android:text="@string/GoBackButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+            android:id="@+id/switch2"
+            android:layout_width="329dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="544dp"
+            android:text="Opcja1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="329dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="604dp"
+            android:layout_weight="1"
+            android:text="Opcja2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="196dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="712dp"
+            android:gravity="start|center_vertical"
+            android:text="Opcja4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextText2"
+            android:layout_width="132dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="236dp"
+            android:layout_marginTop="664dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Opcja3:value"
+            android:inputType="text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextText3"
+            android:layout_width="132dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="236dp"
+            android:layout_marginTop="712dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Opcja4:value"
+            android:inputType="text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="196dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="664dp"
+            android:gravity="start|center_vertical"
+            android:text="Opcja3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="259dp"
+            android:layout_height="93dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="408dp"
+            android:gravity="center"
+            android:text="@string/signingTextPlaceholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/awatarmichal1" />
+        app:menu="@menu/main_menu" />
 
-    <Button
-        android:id="@+id/goBackButton"
-        android:layout_width="133dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="784dp"
-        android:onClick="GoTo_MainActivity"
-        android:text="@string/GoBackButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="329dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="544dp"
-        android:text="Opcja1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="329dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="604dp"
-        android:layout_weight="1"
-        android:text="Opcja2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="196dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="712dp"
-        android:gravity="start|center_vertical"
-        android:text="Opcja4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextText2"
-        android:layout_width="132dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="236dp"
-        android:layout_marginTop="664dp"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="Opcja3:value"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextText3"
-        android:layout_width="132dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="236dp"
-        android:layout_marginTop="712dp"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="Opcja4:value"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="196dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="664dp"
-        android:gravity="start|center_vertical"
-        android:text="Opcja3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="259dp"
-        android:layout_height="93dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="408dp"
-        android:gravity="center"
-        android:text="@string/signingTextPlaceholder"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
