@@ -2,10 +2,13 @@ package com.example.migator;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,17 +19,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.List;
+
 public class busStopResult extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    String name;
+    String number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_stop_result);
-        ((TextView) findViewById(R.id.currentBusStopName)).setText(getIntent().getStringExtra("BusStopName"));
 
         /*--------------------HOOKS---------------------*/
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -51,6 +57,62 @@ public class busStopResult extends AppCompatActivity implements NavigationView.O
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.nav_searchBusStop);
+
+        // get number and name of busstop
+        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, getIntent().getStringExtra("BusStopName"));
+
+        if (stopInfo != null) {
+            name = stopInfo.first;
+            number = stopInfo.second;
+
+            Log.d("Stop Info", "Stop Name: " + name + ", Stop Number: " + number);
+        } else {
+            Log.d("Stop Info", "Nie znaleziono przystanku.");
+        }
+
+        if (number != null) {
+            Log.d("Stop Number", "Numer przystanku: " + number);
+
+            // API callbackiem
+            findStopUtils.getDepartures(number, this, new findStopUtils.DepartureCallback() {
+                @Override
+                public void onDeparturesLoaded(List<DeparturesResponse.Departure> departures) {
+                    runOnUiThread(() -> updateResults(departures));
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.e("Departure Error", error);
+                    runOnUiThread(() -> {
+                        Toast.makeText(busStopResult.this, "Błąd: " + error, Toast.LENGTH_LONG).show();
+                    });
+                }
+            });
+        } else {
+            Log.d("Stop Number", "Nie znaleziono przystanku.");
+            Toast.makeText(this, "Nie znaleziono przystanku.", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void updateResults(List<DeparturesResponse.Departure> departures) {
+        ((TextView) findViewById(R.id.currentBusStopName)).setText(name);
+        for (int i = 0; i < departures.size() && i < 3; i++) {
+            int timeId = getResources().getIdentifier("timeRemaining" + (i + 1), "id", getPackageName());
+            int lineId = getResources().getIdentifier("lineNumber" + (i + 1), "id", getPackageName());
+            int directionId = getResources().getIdentifier("direction" + (i + 1), "id", getPackageName());
+
+            if (departures.get(i).getTime().contains(":"))
+            {
+                ((TextView) findViewById(timeId)).setText("Odjazd " + departures.get(i).getTime());
+            }
+            else
+            {
+                ((TextView) findViewById(timeId)).setText("Odjazd za " + departures.get(i).getTime() + "min");
+            }
+            ((TextView) findViewById(lineId)).setText("Linia " + departures.get(i).getLineNumber());
+            ((TextView) findViewById(directionId)).setText("Kierunek: " + departures.get(i).getDirection());
+        }
     }
 
     @Override

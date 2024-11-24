@@ -2,6 +2,8 @@ package com.example.migator;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -86,11 +88,21 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
     }
 
     public void GoTo_busStopResult(View v){
+
         Intent intent = new Intent(this, busStopResult.class);
         String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
-        if (busStopName.isEmpty()){
+        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+
+        if (busStopName.isEmpty())
+        {
             Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else if (stopInfo == null)
+        {
+            Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
             intent.putExtra("BusStopName", busStopName);
             startActivity(intent);
         }
