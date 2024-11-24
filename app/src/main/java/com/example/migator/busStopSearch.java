@@ -1,6 +1,7 @@
 package com.example.migator;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -107,6 +108,28 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
             startActivity(intent);
         }
 
+    }
+
+    public void GoTo_Naviagtion(View v) {
+        String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
+        busStopName = busStopName.trim();
+        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+        if (busStopName.isEmpty())
+        {
+            Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
+        }
+        else if (stopInfo == null)
+        {
+            Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String name = stopInfo.first;
+            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode("Szczecin, przystanek autobusowy " + name) + "&mode=walking");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+        }
     }
 
     public void GoTo_MainActivity(View v){
