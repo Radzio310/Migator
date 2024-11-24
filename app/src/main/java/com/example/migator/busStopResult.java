@@ -96,22 +96,30 @@ public class busStopResult extends AppCompatActivity implements NavigationView.O
     }
 
     private void updateResults(List<DeparturesResponse.Departure> departures) {
+        // Set the current bus stop name
         ((TextView) findViewById(R.id.currentBusStopName)).setText(name);
-        for (int i = 0; i < departures.size() && i < 3; i++) {
-            int timeId = getResources().getIdentifier("timeRemaining" + (i + 1), "id", getPackageName());
-            int lineId = getResources().getIdentifier("lineNumber" + (i + 1), "id", getPackageName());
-            int directionId = getResources().getIdentifier("direction" + (i + 1), "id", getPackageName());
 
-            if (departures.get(i).getTime().contains(":"))
-            {
-                ((TextView) findViewById(timeId)).setText("Odjazd " + departures.get(i).getTime());
-            }
-            else
-            {
-                ((TextView) findViewById(timeId)).setText("Odjazd za " + departures.get(i).getTime() + "min");
-            }
-            ((TextView) findViewById(lineId)).setText("Linia " + departures.get(i).getLineNumber());
-            ((TextView) findViewById(directionId)).setText("Kierunek: " + departures.get(i).getDirection());
+        // Arrays for the time, line, and direction IDs
+        int[] timeIds = {R.id.timeRemaining1, R.id.timeRemaining2, R.id.timeRemaining3};
+        int[] lineIds = {R.id.lineNumber1, R.id.lineNumber2, R.id.lineNumber3};
+        int[] directionIds = {R.id.direction1, R.id.direction2, R.id.direction3};
+
+        // Loop through the list of departures, processing up to 3 departures
+        for (int i = 0; i < departures.size() && i < 3; i++) {
+            // Get the departure details
+            DeparturesResponse.Departure departure = departures.get(i);
+
+            // Set the time text
+            String timeText = departure.getTime().contains(":") ?
+                    "Odjazd " + departure.getTime() :
+                    "Odjazd za " + departure.getTime() + "min";
+            ((TextView) findViewById(timeIds[i])).setText(timeText);
+
+            // Set the line number text
+            ((TextView) findViewById(lineIds[i])).setText("Linia " + departure.getLineNumber());
+
+            // Set the direction text
+            ((TextView) findViewById(directionIds[i])).setText("Kierunek: " + departure.getDirection());
         }
     }
 
