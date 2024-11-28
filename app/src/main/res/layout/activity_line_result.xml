@@ -5,17 +5,18 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:autofillHints="@string/busLinePlaceholder"
+    tools:context=".busStopResult"
     android:fitsSystemWindows="true"
-    tools:context=".lineResult"
     tools:openDrawer="start">
 
+    <!-- Główna zawartość ekranu w ConstraintLayout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/main_3">
 
+        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -26,9 +27,141 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/menu"
-            app:title="@string/searchLine"
-            app:titleTextColor="@color/main_3" />
+            app:titleTextColor="@color/main_3"
+            app:title="@string/searchBusStop"/>
 
+        <!-- LinearLayout z zawartością przystanku -->
+        <LinearLayout
+            android:layout_width="410dp"
+            android:layout_height="731dp"
+            android:background="@color/main_3"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <!-- Obrazek Avatara -->
+
+            <ImageView
+                android:id="@+id/avatarMichal"
+                android:layout_width="310dp"
+                android:layout_height="420dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/avatarDescription"
+                app:srcCompat="@drawable/awatarmichal1" />
+
+            <!-- Nazwa przystanku -->
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/signingTextPlaceholder" />
+
+            <TextView
+                android:id="@+id/currentBusLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/baloo"
+                android:hint="@string/busStopPlaceholder"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/main"
+                android:textSize="20sp" />
+
+            <!-- Nagłówek wyników -->
+
+            <TextView
+                android:id="@+id/resultsHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/busStopResultsLabel"
+                android:textColor="@color/main_2"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Wyniki linii autobusowych -->
+            <LinearLayout
+                android:id="@+id/result1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/timeRemaining1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/direction1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Kolejne linie autobusowe -->
+            <LinearLayout
+                android:id="@+id/result2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/timeRemaining2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/direction2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/result3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/timeRemaining3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/direction3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Przycisk powrotu -->
         <Button
             android:id="@+id/goBackButton"
             android:layout_width="197dp"
@@ -40,54 +173,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/avatarMichal"
-            android:layout_width="310dp"
-            android:layout_height="420dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="104dp"
-            android:contentDescription="@string/avatarDescription"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/awatarmichal1" />
-
-        <TextView
-            android:id="@+id/currentBusLine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="584dp"
-            android:fontFamily="@font/baloo"
-            android:hint="@string/busLinePlaceholder"
-            android:padding="5dp"
-            android:textAlignment="center"
-            android:textColor="@color/main"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="548dp"
-            android:gravity="center"
-            android:text="@string/signingTextPlaceholder"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- NavigationView dla menu bocznego -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/main_menu" />
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -121,6 +121,10 @@ public class busStopResult extends AppCompatActivity implements NavigationView.O
             // Set the direction text
             ((TextView) findViewById(directionIds[i])).setText("Kierunek: " + departure.getDirection());
         }
+        if (departures.isEmpty())
+        {
+            ((TextView) findViewById(directionIds[0])).setText("Brak odjazdów na obecną chwilę.");
+        }
     }
 
     @Override
