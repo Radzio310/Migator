@@ -1,8 +1,10 @@
 package com.example.migator;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -86,13 +88,34 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
 
         return true;
     }
-    public void GoTo_lineResult(View v){
+    public void GoTo_LineResult(View v) {
         Intent intent = new Intent(this, lineResult.class);
-        String busLineNumber = ((EditText) findViewById(R.id.lineNumber)).getText().toString();
-        if (busLineNumber.isEmpty()){
-            Toast.makeText(this, "Nie podano numeru linii.", Toast.LENGTH_SHORT).show();
-        } else {
-            intent.putExtra("BusLineNumber", busLineNumber);
+        String lineNumber = ((EditText) findViewById(R.id.lineNumber)).getText().toString();
+        String lineInfo = findStopUtils.findLineInfo(this, lineNumber);
+
+        String busStopName = ((EditText) findViewById(R.id.lineBusStop)).getText().toString();
+        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+
+        if (lineNumber.isEmpty())
+        {
+            Toast.makeText(this, "Nie podano linii.", Toast.LENGTH_SHORT).show();
+        }
+        else if (lineInfo == null)
+        {
+            Toast.makeText(this, "Nie znaleziono takiej linii.", Toast.LENGTH_SHORT).show();
+        }
+        else if (busStopName.isEmpty())
+        {
+            Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
+        }
+        else if (stopInfo == null)
+        {
+            Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            intent.putExtra("BusLineName", lineNumber);
+            intent.putExtra("BusStopName", busStopName);
             startActivity(intent);
         }
     }

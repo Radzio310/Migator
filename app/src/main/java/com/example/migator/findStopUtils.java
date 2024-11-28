@@ -31,6 +31,21 @@ public class findStopUtils {
         }
     }
 
+    public static List<Line> loadLines(Context context) {
+        try {
+            InputStream inputStream = context.getResources().openRawResource(R.raw.lines);
+            InputStreamReader reader = new InputStreamReader(inputStream);
+
+            Gson gson = new Gson();
+            LinesResponse response = gson.fromJson(reader, LinesResponse.class);
+
+            return response.getData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static Pair<String, String> findStopInfo(Context context, String inputName) {
         List<Stop> stops = loadStops(context);
         if (stops == null) {
@@ -48,6 +63,23 @@ public class findStopUtils {
         for (Stop stop : stops) {
             if (stop.getName().toLowerCase().contains(inputName.toLowerCase())) {
                 return new Pair<>(stop.getName(), stop.getNumber());
+            }
+        }
+
+        // not found
+        return null;
+    }
+
+    public static String findLineInfo(Context context, String inputName) {
+        List<Line> lines = loadLines(context);
+        if (lines == null) {
+            return null;
+        }
+
+        // 1st search
+        for (Line line : lines) {
+            if (line.getNumber().equalsIgnoreCase(inputName)) {
+                return line.getNumber();
             }
         }
 

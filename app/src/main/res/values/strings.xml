@@ -28,4 +28,5 @@
     <string name="searchLine">Wyszukaj linię</string>
     <string name="searchBusStop">Wyszukaj przystanek</string>
     <string name="map">Mapa przystanków</string>
+    <string name="busLineStopPlaceholder">Nazwa przystanku</string>
 </resources>
