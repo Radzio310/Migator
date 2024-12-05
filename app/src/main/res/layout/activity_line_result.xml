@@ -1,83 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:autofillHints="@string/busLinePlaceholder"
     android:fitsSystemWindows="true"
     tools:context=".lineResult"
     tools:openDrawer="start">
 
+    <!-- Główna zawartość aplikacji -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/main_3">
 
+        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/main"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/menu"
             app:title="@string/searchLine"
-            app:titleTextColor="@color/main_3" />
-
-        <Button
-            android:id="@+id/goBackButton"
-            android:layout_width="197dp"
-            android:layout_height="57dp"
-            android:layout_marginStart="107dp"
-            android:layout_marginTop="821dp"
-            android:onClick="GoTo_lineSearch"
-            android:text="@string/GoBackButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/avatarMichal"
-            android:layout_width="310dp"
-            android:layout_height="420dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="104dp"
-            android:contentDescription="@string/avatarDescription"
-            app:layout_constraintStart_toStartOf="parent"
+            app:titleTextColor="@color/main_3"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/awatarmichal1" />
-
-        <TextView
-            android:id="@+id/currentBusLine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="584dp"
-            android:fontFamily="@font/baloo"
-            android:hint="@string/busLinePlaceholder"
-            android:padding="5dp"
-            android:textAlignment="center"
-            android:textColor="@color/main"
-            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:navigationIcon="@drawable/menu" />
 
-        <TextView
-            android:id="@+id/textView6"
+        <!-- LinearLayout dla zawartości poniżej Toolbara -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="548dp"
-            android:gravity="center"
-            android:text="@string/signingTextPlaceholder"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@color/main_3"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
+            <!-- Avatar -->
+            <ImageView
+                android:id="@+id/avatarMichal"
+                android:layout_width="wrap_content"
+                android:layout_height="350dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/avatarDescription"
+                app:srcCompat="@drawable/awatarmichal1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/baloo"
+                android:padding="5dp"
+                android:text="@string/signingTextPlaceholder"
+                android:textAlignment="center"
+                android:textColor="@color/main"
+                android:textSize="14sp" />
+
+            <!-- Tekst bieżącej linii -->
+            <TextView
+                android:id="@+id/currentBusLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/baloo"
+                android:hint="@string/busLinePlaceholder"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/main"
+                android:textSize="20sp" />
+
+            <!-- Przycisk powrotu -->
+            <Button
+                android:id="@+id/goBackButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:onClick="GoTo_lineSearch"
+                android:text="@string/GoBackButton" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
