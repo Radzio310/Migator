@@ -1,7 +1,9 @@
 package com.example.migator;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -86,15 +88,47 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
     }
 
     public void GoTo_busStopResult(View v){
+
         Intent intent = new Intent(this, busStopResult.class);
         String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
-        if (busStopName.isEmpty()){
+        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+
+        if (busStopName.isEmpty())
+        {
             Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else if (stopInfo == null)
+        {
+            Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
             intent.putExtra("BusStopName", busStopName);
             startActivity(intent);
         }
 
+    }
+
+    public void GoTo_Naviagtion(View v) {
+        String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
+        busStopName = busStopName.trim();
+        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+        if (busStopName.isEmpty())
+        {
+            Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
+        }
+        else if (stopInfo == null)
+        {
+            Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String name = stopInfo.first;
+            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode("Szczecin, przystanek autobusowy " + name) + "&mode=walking");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+        }
     }
 
     public void GoTo_MainActivity(View v){

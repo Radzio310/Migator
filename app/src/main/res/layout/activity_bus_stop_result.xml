@@ -87,7 +87,7 @@
 
             <!-- Wyniki linii autobusowych -->
             <LinearLayout
-                android:id="@+id/test1"
+                android:id="@+id/result1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -98,7 +98,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Za 5 min"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
@@ -107,7 +106,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Linia 23"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
@@ -116,14 +114,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Do Centrum"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <!-- Kolejne linie autobusowe -->
             <LinearLayout
-                android:id="@+id/test2"
+                android:id="@+id/result2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -134,7 +131,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Za 10 min"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
@@ -143,7 +139,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Linia 12"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
@@ -152,13 +147,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Do Dworzec"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/test3"
+                android:id="@+id/result3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -169,7 +163,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Za 15 min"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
@@ -178,7 +171,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Linia 45"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
@@ -187,7 +179,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Do Stadion"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
             </LinearLayout>
