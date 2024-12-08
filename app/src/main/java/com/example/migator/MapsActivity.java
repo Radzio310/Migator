@@ -1,6 +1,7 @@
 package com.example.migator;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -103,8 +104,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void loadBusStopsFromJSON() {
         try {
-            // Wczytaj plik JSON z katalogu assets
-            InputStream is = getAssets().open("stops.json");
+            // Wczytaj plik JSON z katalogu raw
+            InputStream is = getResources().openRawResource(R.raw.stops);
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             StringBuilder stringBuilder = new StringBuilder();
             String line;
@@ -119,12 +120,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             // Dodaj markery dla każdego przystanku
             for (Stop stop : stopsResponse.data) {
-                // Używamy getterów, aby uzyskać dane
                 LatLng stopLocation = new LatLng(stop.latitude, stop.longitude);
                 mMap.addMarker(new MarkerOptions()
                         .position(stopLocation)
-                        .title(stop.getName()) // Korzystamy z getName()
-                        .snippet("Numer: " + stop.getNumber())); // Korzystamy z getNumber()
+                        .title(stop.getName())
+                        .snippet("Numer: " + stop.getNumber()));
             }
 
         } catch (IOException e) {
@@ -132,11 +132,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    private void enableUserLocation() {
+        if (mMap != null && checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        }
+    }
+
+    private void requestLocationPermission() {
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults); // Wywołaj super, aby bazowa klasa też obsłużyła wynik
+
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Uprawnienia przyznane – włącz lokalizację
+                enableUserLocation();
+            } else {
+                // Uprawnienia odrzucone – pokaż komunikat
+                Toast.makeText(this, "Brak uprawnień do lokalizacji. Nie można włączyć funkcji lokalizacji.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        // Włącz lokalizację użytkownika, jeśli są uprawnienia
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        } else {
+            requestLocationPermission();
+        }
 
         // Ładowanie przystanków z pliku JSON
         loadBusStopsFromJSON();
