@@ -76,9 +76,8 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
             Intent intent = new Intent(busStopSearch.this, lineSearch.class);
             startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_map) {
-            //Intent intent = new Intent(busStopSearch.this, busStopMap.class);
-            //startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
+            Intent intent = new Intent(busStopSearch.this, MapsActivity.class);
+            startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_settings) {
             Intent intent = new Intent(busStopSearch.this, settings.class);
             startActivity(intent);
@@ -113,23 +112,24 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
         busStopName = busStopName.trim();
         Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
-        if (busStopName.isEmpty())
-        {
+
+        if (busStopName.isEmpty()) {
             Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
-        }
-        else if (stopInfo == null)
-        {
+        } else if (stopInfo == null) {
             Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        } else {
             String name = stopInfo.first;
-            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode("Szczecin, przystanek autobusowy " + name) + "&mode=walking");
+            // Alternatywne URI (żeby się włączało w trybie pieszym)
+            Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" +
+                    Uri.encode("Szczecin, przystanek autobusowy " + name) +
+                    "&travelmode=walking");
+
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
         }
     }
+
 
     public void GoTo_MainActivity(View v){
         Intent intent = new Intent(this, MainActivity.class);

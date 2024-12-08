@@ -78,9 +78,8 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
         } else if(menuItem.getItemId() == R.id.nav_searchLine) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else if(menuItem.getItemId() == R.id.nav_map) {
-            //Intent intent = new Intent(busStopSearch.this, busStopMap.class);
-            //startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
+            Intent intent = new Intent(lineSearch.this, MapsActivity.class);
+            startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_settings) {
             Intent intent = new Intent(lineSearch.this, settings.class);
             startActivity(intent);

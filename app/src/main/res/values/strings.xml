@@ -29,4 +29,10 @@
     <string name="searchBusStop">Wyszukaj przystanek</string>
     <string name="map">Mapa przystanków</string>
     <string name="busLineStopPlaceholder">Nazwa przystanku</string>
+
+    <string name="departureHeader">Odjazd</string>
+    <string name="lineHeader">Numer linii</string>
+    <string name="directionHeader">Kierunek</string>
+
+    <string name="logo">Logo aplikacji Migator</string>
 </resources>

@@ -159,9 +159,8 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
             Intent intent = new Intent(lineResult.this, lineSearch.class);
             startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_map) {
-            //Intent intent = new Intent(busStopResult.this, busStopMap.class);
-            //startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
+            Intent intent = new Intent(lineResult.this, MapsActivity.class);
+            startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_settings) {
             Intent intent = new Intent(lineResult.this, settings.class);
             startActivity(intent);

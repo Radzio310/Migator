@@ -77,9 +77,8 @@ public class settings extends AppCompatActivity implements NavigationView.OnNavi
             Intent intent = new Intent(settings.this, lineSearch.class);
             startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_map) {
-            //Intent intent = new Intent(MainActivity.this, busStopMap.class);
-            //startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
+            Intent intent = new Intent(settings.this, MapsActivity.class);
+            startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_settings) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }

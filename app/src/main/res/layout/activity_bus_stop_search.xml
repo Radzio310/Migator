@@ -43,8 +43,8 @@
 
             <ImageView
                 android:id="@+id/avatarMichal"
-                android:layout_width="310dp"
-                android:layout_height="420dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:contentDescription="@string/avatarDescription"
@@ -73,7 +73,7 @@
             <!-- Pole tekstowe dla nazwy przystanku -->
             <EditText
                 android:id="@+id/busStopName"
-                android:layout_width="250dp"
+                android:layout_width="300dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
                 android:hint="@string/busStopPlaceholder"

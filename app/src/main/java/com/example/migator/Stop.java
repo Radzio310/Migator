@@ -4,8 +4,8 @@ public class Stop {
     private int id;
     private String number;
     private String name;
-    private double latitude;
-    private double longitude;
+    public double latitude;
+    public double longitude;
     private boolean request_stop;
     private boolean park_and_ride;
     private String railway_station_name;

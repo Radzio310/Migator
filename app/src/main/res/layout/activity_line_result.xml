@@ -32,21 +32,20 @@
 
         <!-- LinearLayout z zawartością przystanku -->
         <LinearLayout
-            android:layout_width="410dp"
-            android:layout_height="731dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/main_3"
             android:orientation="vertical"
             android:padding="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:layout_editor_absoluteX="0dp">
 
             <!-- Obrazek Avatara -->
 
             <ImageView
                 android:id="@+id/avatarMichal"
-                android:layout_width="310dp"
-                android:layout_height="420dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:contentDescription="@string/avatarDescription"
@@ -66,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/baloo"
-                android:hint="@string/busStopPlaceholder"
+                android:hint="@string/busLinePlaceholder"
                 android:padding="5dp"
                 android:textAlignment="center"
                 android:textColor="@color/main"
