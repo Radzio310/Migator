@@ -88,8 +88,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/menu"
-            app:titleTextColor="@color/main_3"
-            app:title="@string/home"/>
+            app:title="@string/home"
+            app:titleTextColor="@color/main_3" />
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="340dp"
+            android:layout_height="340dp"
+            android:layout_marginTop="164dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,10 +1,12 @@
 package com.example.migator;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,6 +16,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -49,6 +53,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.nav_home);
+
+
+        /*-----URUCHAMIANIE WIDEO-----*/
+        AtomicInteger flaga = new AtomicInteger(1); // flaga do wybierania filmu do odpalenia
+
+        VideoView videoView = findViewById(R.id.videoView);
+
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.witaj_w_migator); // ustawienie filmu
+
+        videoView.setVideoURI(videoUri);
+        videoView.start(); // uruchomienie filmu
+
+        videoView.setOnCompletionListener(mp -> { // czekanie az sie zakonczy obecny film
+            if (flaga.get() == 1) { // sprawdzenie czy zakonczyl sie pierwszy film
+                Uri videoUri2 = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.jestes_na_glownej); // ustawienie drugiego filmu
+                videoView.setVideoURI(videoUri2);
+                videoView.start();
+                flaga.getAndIncrement(); // zwiekszenie flagi
+            } else if (flaga.get() == 2) {
+                Uri videoUri3 = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_5);
+                videoView.setVideoURI(videoUri3);
+                videoView.start();
+            }
+        });
+
+
+
+
     }
 
     @Override
