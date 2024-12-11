@@ -1,9 +1,11 @@
 package com.example.migator;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -131,9 +135,13 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
             // Set the direction text
             ((TextView) findViewById(directionIds[i])).setText("Kierunek: " + departure.getDirection());
         }
-        if (departures.isEmpty())
-        {
-            ((TextView) findViewById(directionIds[0])).setText("Brak odjazdów na obecną chwilę.");
+        if (departures.isEmpty()) {
+            TextView emptyView = ((TextView) findViewById(directionIds[0]));
+            emptyView.setText("Brak odjazdów tej linii");
+            emptyView.setGravity(Gravity.CENTER);
+            emptyView.setTypeface(ResourcesCompat.getFont(this, R.font.baloo), Typeface.ITALIC); // Czcionka Baloo i pochyłość
+            emptyView.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark)); // Kolor czerwony
+            emptyView.setTextSize(16); // Opcjonalnie dostosuj rozmiar tekstu
         }
     }
 

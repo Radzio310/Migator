@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".settings"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="end">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_content"
@@ -43,13 +43,14 @@
             android:id="@+id/goBackButton"
             android:layout_width="133dp"
             android:layout_height="55dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+
             android:onClick="GoTo_MainActivity"
             android:text="@string/GoBackButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            app:layout_constraintVertical_bias="0.5" />
 
         <Switch
             android:id="@+id/switch2"
@@ -130,6 +131,23 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+        <Button
+            android:id="@+id/saveChangesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
+            android:backgroundTint="#009688"
+            android:onClick="saveChanges"
+            android:paddingHorizontal="35dp"
+            android:paddingVertical="16dp"
+            android:text="Zapisz zmiany"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            app:layout_constraintVertical_bias="0.5" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
