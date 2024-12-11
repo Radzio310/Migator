@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".settings"
     android:fitsSystemWindows="true"
-    tools:openDrawer="end">
+    tools:openDrawer="start">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_content"

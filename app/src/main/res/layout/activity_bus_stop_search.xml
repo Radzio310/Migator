@@ -72,7 +72,7 @@
                 android:textSize="20sp" />
 
             <!-- Pole tekstowe dla nazwy przystanku -->
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/busStopName"
                 android:layout_width="300dp"
                 android:layout_height="60dp"

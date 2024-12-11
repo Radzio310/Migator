@@ -8,6 +8,8 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,12 +22,79 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class lineSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+
+    public static class JsonUtils {
+        public static List<String> loadLineNumbersFromJson(Context context) {
+            try {
+                // Otwórz plik JSON z folderu raw
+                InputStream inputStream = context.getResources().openRawResource(R.raw.lines);
+                InputStreamReader reader = new InputStreamReader(inputStream);
+
+                // Używamy Gson do sparsowania pliku JSON
+                Gson gson = new Gson();
+                Type type = new TypeToken<LinesResponse>(){}.getType();
+                LinesResponse response = gson.fromJson(reader, type);
+
+                // Zwróć listę numerów linii
+                List<Line> lines = response.getData();
+                List<String> lineNumbers = new ArrayList<>();
+                for (Line line : lines) {
+                    lineNumbers.add(line.getNumber());
+                }
+
+                return lineNumbers;
+            } catch (Exception e) {
+                Log.e("JsonUtils", "Error loading lines from JSON", e);
+                return null;
+            }
+        }
+
+        public static List<String> loadStopNamesFromJson(Context context) {
+            try {
+                // Otwórz plik JSON z folderu raw
+                InputStream inputStream = context.getResources().openRawResource(R.raw.stops);
+                InputStreamReader reader = new InputStreamReader(inputStream);
+
+                // Używamy Gson do sparsowania pliku JSON
+                Gson gson = new Gson();
+                Type type = new TypeToken<StopsResponse>(){}.getType();
+                StopsResponse response = gson.fromJson(reader, type);
+
+                // Zwróć listę nazw przystanków
+                List<Stop> stops = response.getData();
+                List<String> stopNames = new ArrayList<>();
+                for (Stop stop : stops) {
+                    stopNames.add(stop.getName());
+                }
+
+                return stopNames;
+            } catch (Exception e) {
+                Log.e("JsonUtils", "Error loading stops from JSON", e);
+                return null;
+            }
+        }
+
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +110,8 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
         setSupportActionBar(toolbar);
 
         /*--------------------NAVIGATION DRAWER MENU---------------------*/
-
-        //hide or show items
         Menu menu = navigationView.getMenu();
-        menu.findItem(R.id.nav_home).setVisible(true); //przykład
-
+        menu.findItem(R.id.nav_home).setVisible(true);
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -55,7 +121,54 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.nav_searchLine);
+
+        // Inicjalizacja AutoCompleteTextView dla numeru linii
+        AutoCompleteTextView lineNumberView = findViewById(R.id.lineNumber);
+
+        // Ładowanie numerów linii z pliku JSON
+        List<String> lineNumbers = JsonUtils.loadLineNumbersFromJson(this);
+        if (lineNumbers != null) {
+            // Tworzenie adaptera dla AutoCompleteTextView
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, lineNumbers);
+            lineNumberView.setAdapter(adapter);
+
+            // Wyświetlanie podpowiedzi po wpisaniu jednego znaku
+            lineNumberView.setThreshold(1);
+
+            // Obsługa kliknięcia w elementy z listy podpowiedzi
+            lineNumberView.setOnItemClickListener((parent, view, position, id) -> {
+                // Pobierz wybraną linię z listy
+                String selectedLine = parent.getItemAtPosition(position).toString();
+                Toast.makeText(this, "Wybrana linia: " + selectedLine, Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            Toast.makeText(this, "Błąd podczas ładowania danych linii", Toast.LENGTH_SHORT).show();
+        }
+
+        // Inicjalizacja AutoCompleteTextView dla przystanku
+        AutoCompleteTextView busStopView = findViewById(R.id.lineBusStop);
+
+        // Ładowanie nazw przystanków z pliku JSON
+        List<String> stopNames = JsonUtils.loadStopNamesFromJson(this);
+        if (stopNames != null) {
+            // Tworzenie adaptera dla AutoCompleteTextView
+            ArrayAdapter<String> stopAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, stopNames);
+            busStopView.setAdapter(stopAdapter);
+
+            // Wyświetlanie podpowiedzi po wpisaniu jednego znaku
+            busStopView.setThreshold(1);
+
+            // Obsługa kliknięcia w elementy z listy podpowiedzi
+            busStopView.setOnItemClickListener((parent, view, position, id) -> {
+                // Pobierz wybrany przystanek z listy
+                String selectedStop = parent.getItemAtPosition(position).toString();
+                Toast.makeText(this, "Wybrany przystanek: " + selectedStop, Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            Toast.makeText(this, "Błąd podczas ładowania danych przystanków", Toast.LENGTH_SHORT).show();
+        }
     }
+
 
     @Override
     public void onBackPressed() {
@@ -89,7 +202,9 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
     }
     public void GoTo_LineResult(View v) {
         Intent intent = new Intent(this, lineResult.class);
-        String lineNumber = ((EditText) findViewById(R.id.lineNumber)).getText().toString();
+
+        // Pobierz numer linii z AutoCompleteTextView
+        String lineNumber = ((AutoCompleteTextView) findViewById(R.id.lineNumber)).getText().toString();
         String lineInfo = findStopUtils.findLineInfo(this, lineNumber);
 
         String busStopName = ((EditText) findViewById(R.id.lineBusStop)).getText().toString();

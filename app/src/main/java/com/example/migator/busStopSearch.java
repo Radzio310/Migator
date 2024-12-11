@@ -1,12 +1,16 @@
 package com.example.migator;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,12 +22,48 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-public class busStopSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+public class busStopSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+
+    public static class JsonUtils {
+
+        public static List<String> loadStopNamesFromJson(Context context) {
+            try {
+                // Otwórz plik JSON z folderu raw
+                InputStream inputStream = context.getResources().openRawResource(R.raw.stops); // Załaduj plik JSON
+                InputStreamReader reader = new InputStreamReader(inputStream);
+
+                // Używamy Gson do sparsowania pliku JSON
+                Gson gson = new Gson();
+                Type type = new TypeToken<StopsResponse>(){}.getType(); // Dopasuj do swojej struktury JSON
+                StopsResponse response = gson.fromJson(reader, type);
+
+                // Zwróć listę nazw przystanków
+                List<Stop> stops = response.getData();
+                List<String> stopNames = new ArrayList<>();
+                for (Stop stop : stops) {
+                    stopNames.add(stop.getName());
+                }
+
+                return stopNames;
+            } catch (Exception e) {
+                Log.e("JsonUtils", "Error loading stops from JSON", e);
+                return null;
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +84,6 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         Menu menu = navigationView.getMenu();
         menu.findItem(R.id.nav_home).setVisible(true); //przykład
 
-
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -53,14 +92,36 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.nav_searchBusStop);
+
+        // Inicjalizacja AutoCompleteTextView dla przystanku
+        AutoCompleteTextView busStopView = findViewById(R.id.busStopName);
+
+        // Ładowanie nazw przystanków z pliku JSON
+        List<String> stopNames = lineSearch.JsonUtils.loadStopNamesFromJson(this);
+        if (stopNames != null) {
+            // Tworzenie adaptera dla AutoCompleteTextView
+            ArrayAdapter<String> stopAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, stopNames);
+            busStopView.setAdapter(stopAdapter);
+
+            // Wyświetlanie podpowiedzi po wpisaniu jednego znaku
+            busStopView.setThreshold(1);
+
+            // Obsługa kliknięcia w elementy z listy podpowiedzi
+            busStopView.setOnItemClickListener((parent, view, position, id) -> {
+                // Pobierz wybrany przystanek z listy
+                String selectedStop = parent.getItemAtPosition(position).toString();
+                Toast.makeText(this, "Wybrany przystanek: " + selectedStop, Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            Toast.makeText(this, "Błąd podczas ładowania danych przystanków", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -86,26 +147,20 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
-    public void GoTo_busStopResult(View v){
-
+    public void GoTo_busStopResult(View v) {
         Intent intent = new Intent(this, busStopResult.class);
+
         String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
         Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
 
-        if (busStopName.isEmpty())
-        {
+        if (busStopName.isEmpty()) {
             Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
-        }
-        else if (stopInfo == null)
-        {
+        } else if (stopInfo == null) {
             Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        } else {
             intent.putExtra("BusStopName", busStopName);
             startActivity(intent);
         }
-
     }
 
     public void GoTo_Naviagtion(View v) {
@@ -130,10 +185,8 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         }
     }
 
-
-    public void GoTo_MainActivity(View v){
+    public void GoTo_MainActivity(View v) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
 }
