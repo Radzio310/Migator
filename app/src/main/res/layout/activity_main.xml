@@ -29,34 +29,52 @@
             app:srcCompat="@drawable/migator_logo" />
 
         <!-- Avatar Image -->
-        <ImageView
-            android:id="@+id/avatarMichal"
-            android:layout_width="300dp"
-            android:layout_height="350dp"
-            android:layout_marginTop="0dp"
-            android:contentDescription="@string/avatarDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/logoFull"
-            app:srcCompat="@drawable/awatarmichal1" />
+
 
         <!-- Signing Text -->
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="411dp"
+            android:layout_height="402dp"
+            android:layout_marginTop="96dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Bus Stop Image -->
+
+
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
+            android:layout_width="376dp"
+            android:layout_height="126dp"
+            android:layout_marginTop="504dp"
             android:fontFamily="@font/baloo"
             android:gravity="center_horizontal"
             android:text="@string/signingTextPlaceholder"
             android:textAlignment="center"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.578"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/avatarMichal" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Bus Stop Image -->
+        <ImageView
+            android:id="@+id/busStopImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/busStopDescription"
+            android:onClick="GoTo_busStopSearch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintVertical_bias="0.5"
+            app:srcCompat="@drawable/bus_stop" />
+
 
         <!-- Bus Stop Name Text -->
 
@@ -72,6 +90,7 @@
             app:navigationIcon="@drawable/menu"
             app:title="@string/home"
             app:titleTextColor="@color/main_3" />
+
 
         <Button
             android:id="@+id/main_busStop"
@@ -117,6 +136,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:visibility="gone"
         app:headerLayout="@layout/header"
         app:menu="@menu/main_menu" />
 
