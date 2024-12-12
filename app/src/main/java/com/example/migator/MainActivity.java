@@ -85,4 +85,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(this, busStopSearch.class);
         startActivity(intent);
     }
+
+    public void GoTo_busLineSearch(View v){
+        Intent intent = new Intent(this, lineSearch.class);
+        startActivity(intent);
+    }
 }

@@ -9,11 +9,11 @@
             android:title="@string/home" />
         <item
             android:id="@+id/nav_searchBusStop"
-            android:icon="@drawable/searchbusstop"
+            android:icon="@drawable/bus_stop_icon"
             android:title="@string/searchBusStop" />
         <item
             android:id="@+id/nav_searchLine"
-            android:icon="@drawable/searchline"
+            android:icon="@drawable/bus_line"
             android:title="@string/searchLine" />
         <item
             android:id="@+id/nav_map"

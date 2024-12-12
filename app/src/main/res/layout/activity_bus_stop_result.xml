@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".busStopResult"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="end">
 
     <!-- Główna zawartość ekranu -->
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -29,7 +29,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class busStopSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -97,10 +99,13 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         AutoCompleteTextView busStopView = findViewById(R.id.busStopName);
 
         // Ładowanie nazw przystanków z pliku JSON
-        List<String> stopNames = lineSearch.JsonUtils.loadStopNamesFromJson(this);
+        List<String> stopNames = JsonUtils.loadStopNamesFromJson(this);
         if (stopNames != null) {
-            // Tworzenie adaptera dla AutoCompleteTextView
-            ArrayAdapter<String> stopAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, stopNames);
+            // Użycie HashSet do usunięcia duplikatów
+            Set<String> uniqueStopNames = new HashSet<>(stopNames);
+
+            // Tworzenie adaptera z niestandardowym układem
+            ArrayAdapter<String> stopAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueStopNames));
             busStopView.setAdapter(stopAdapter);
 
             // Wyświetlanie podpowiedzi po wpisaniu jednego znaku
@@ -115,6 +120,7 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         } else {
             Toast.makeText(this, "Błąd podczas ładowania danych przystanków", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @Override

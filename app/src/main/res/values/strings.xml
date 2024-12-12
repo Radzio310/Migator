@@ -35,4 +35,6 @@
     <string name="directionHeader">Kierunek</string>
 
     <string name="logo">Logo aplikacji Migator</string>
+
+    <string name="checkSchedule">Wyświetl rozkład</string>
 </resources>

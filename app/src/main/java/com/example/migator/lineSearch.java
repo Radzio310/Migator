@@ -32,7 +32,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class lineSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -124,20 +126,15 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
 
         // Inicjalizacja AutoCompleteTextView dla numeru linii
         AutoCompleteTextView lineNumberView = findViewById(R.id.lineNumber);
-
-        // Ładowanie numerów linii z pliku JSON
         List<String> lineNumbers = JsonUtils.loadLineNumbersFromJson(this);
-        if (lineNumbers != null) {
-            // Tworzenie adaptera dla AutoCompleteTextView
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, lineNumbers);
-            lineNumberView.setAdapter(adapter);
 
-            // Wyświetlanie podpowiedzi po wpisaniu jednego znaku
+        if (lineNumbers != null) {
+            Set<String> uniqueLineNumbers = new HashSet<>(lineNumbers);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueLineNumbers));
+            lineNumberView.setAdapter(adapter);
             lineNumberView.setThreshold(1);
 
-            // Obsługa kliknięcia w elementy z listy podpowiedzi
             lineNumberView.setOnItemClickListener((parent, view, position, id) -> {
-                // Pobierz wybraną linię z listy
                 String selectedLine = parent.getItemAtPosition(position).toString();
                 Toast.makeText(this, "Wybrana linia: " + selectedLine, Toast.LENGTH_SHORT).show();
             });
@@ -147,20 +144,15 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
 
         // Inicjalizacja AutoCompleteTextView dla przystanku
         AutoCompleteTextView busStopView = findViewById(R.id.lineBusStop);
-
-        // Ładowanie nazw przystanków z pliku JSON
         List<String> stopNames = JsonUtils.loadStopNamesFromJson(this);
-        if (stopNames != null) {
-            // Tworzenie adaptera dla AutoCompleteTextView
-            ArrayAdapter<String> stopAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, stopNames);
-            busStopView.setAdapter(stopAdapter);
 
-            // Wyświetlanie podpowiedzi po wpisaniu jednego znaku
+        if (stopNames != null) {
+            Set<String> uniqueStopNames = new HashSet<>(stopNames);
+            ArrayAdapter<String> stopAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueStopNames));
+            busStopView.setAdapter(stopAdapter);
             busStopView.setThreshold(1);
 
-            // Obsługa kliknięcia w elementy z listy podpowiedzi
             busStopView.setOnItemClickListener((parent, view, position, id) -> {
-                // Pobierz wybrany przystanek z listy
                 String selectedStop = parent.getItemAtPosition(position).toString();
                 Toast.makeText(this, "Wybrany przystanek: " + selectedStop, Toast.LENGTH_SHORT).show();
             });

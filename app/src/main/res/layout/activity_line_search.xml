@@ -73,19 +73,22 @@
             <!-- LinearLayout z przyciskami wyszukiwania i nawigacji -->
             <AutoCompleteTextView
                 android:id="@+id/lineNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:dropDownHeight="wrap_content"
                 android:hint="@string/busLinePlaceholder"
                 android:inputType="number"
-                android:dropDownHeight="wrap_content" />
+                android:textColor="@color/main"/>
 
             <AutoCompleteTextView
                 android:id="@+id/lineBusStop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:hint="@string/busLineStopPlaceholder"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="@color/main"/>
 
 
             <LinearLayout
