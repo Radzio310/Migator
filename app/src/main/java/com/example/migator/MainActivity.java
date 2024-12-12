@@ -122,9 +122,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(MainActivity.this, lineSearch.class);
             startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_map) {
-            //Intent intent = new Intent(MainActivity.this, busStopMap.class);
-            //startActivity(intent);
-            drawerLayout.closeDrawer(GravityCompat.START); //na razie póki nie ma innych ekranów
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(intent);
         } else if(menuItem.getItemId() == R.id.nav_settings) {
             Intent intent = new Intent(MainActivity.this, settings.class);
             startActivity(intent);
@@ -135,6 +134,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void GoTo_busStopSearch(View v){
         Intent intent = new Intent(this, busStopSearch.class);
+        startActivity(intent);
+    }
+
+    public void GoTo_busLineSearch(View v){
+        Intent intent = new Intent(this, lineSearch.class);
         startActivity(intent);
     }
 }
