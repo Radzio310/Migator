@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="end">
 
 
     <!-- Main content area with ConstraintLayout -->
@@ -17,17 +17,28 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF">
 
+        <ImageView
+            android:id="@+id/logoFull"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:srcCompat="@drawable/migator_logo" />
+
         <!-- Avatar Image -->
         <ImageView
             android:id="@+id/avatarMichal"
-            android:layout_width="310dp"
-            android:layout_height="420dp"
-            android:layout_marginTop="100dp"
+            android:layout_width="300dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="0dp"
             android:contentDescription="@string/avatarDescription"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logoFull"
             app:srcCompat="@drawable/awatarmichal1" />
 
         <!-- Signing Text -->
@@ -46,37 +57,8 @@
             app:layout_constraintTop_toBottomOf="@id/avatarMichal" />
 
         <!-- Bus Stop Image -->
-        <ImageView
-            android:id="@+id/busStopImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/busStopDescription"
-            android:onClick="GoTo_busStopSearch"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="0.5"
-            app:srcCompat="@drawable/bus_stop" />
 
         <!-- Bus Stop Name Text -->
-        <TextView
-            android:id="@+id/busStopNameText"
-            android:layout_width="275dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/baloo"
-            android:gravity="center"
-            android:onClick="GoTo_busStopSearch"
-            android:text="@string/busStopPlaceholder"
-            android:textColor="@color/main"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/busStopImage"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="0.5" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -88,8 +70,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/menu"
-            app:titleTextColor="@color/main_3"
-            app:title="@string/home"/>
+            app:title="@string/home"
+            app:titleTextColor="@color/main_3" />
+
+        <Button
+            android:id="@+id/main_busStop"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/main"
+            android:drawableLeft="@drawable/bus_stop_icon"
+            android:onClick="GoTo_busStopSearch"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="@string/searchBusStop"
+            android:textColor="@color/main_3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/main_busLine"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <Button
+            android:id="@+id/main_busLine"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/main_2"
+            android:drawableLeft="@drawable/bus_line"
+            android:onClick="GoTo_busLineSearch"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="@string/searchLine"
+            android:textColor="@color/main_3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/main_busStop"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintVertical_bias="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
