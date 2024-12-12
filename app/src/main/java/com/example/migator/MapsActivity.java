@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -43,6 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private List<Marker> markersList = new ArrayList<>();
+    private Marker activeMarker = null;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -84,18 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             for (Marker marker : markersList) {
                 if (marker.getTitle().equals(selectedStop)) {
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 14f));
-                    marker.showInfoWindow();
-
-                    // Symulacja zdarzenia kliknięcia
-                    mMap.setOnMarkerClickListener(m -> {
-                        if (m.equals(marker)) {
-                            // Obsługa wybranego markera
-                            return true;
-                        }
-                        return false;
-                    });
-
+                    displayStopDetails(marker);
                     break;
                 }
             }
@@ -194,35 +185,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+            centerMapBasedOnLocation();
         } else {
             requestLocationPermission();
         }
 
         loadBusStopsFromJSON();
 
+        // Obsługa kliknięcia na marker
         mMap.setOnMarkerClickListener(marker -> {
-            String stopName = marker.getTitle();
-            LatLng stopPosition = marker.getPosition();
+            if (activeMarker != null) {
+                // Resetuj poprzedni aktywny marker
+                resetMarkerAppearance(activeMarker);
+            }
 
-            TextView stopNameView = findViewById(R.id.stop_name);
-            stopNameView.setText(stopName);
-
-            findViewById(R.id.bottom_panel).setVisibility(View.VISIBLE);
-
-            findViewById(R.id.view_schedule_button).setOnClickListener(v -> {
-                Intent intent = new Intent(MapsActivity.this, busStopResult.class);
-                intent.putExtra("BusStopName", stopName);
-                startActivity(intent);
-            });
-
-            findViewById(R.id.navigate_button).setOnClickListener(v -> {
-                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + stopPosition.latitude + "," + stopPosition.longitude + "&mode=w");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
-            });
+            // Ustaw nowy aktywny marker
+            activeMarker = marker;
+            highlightMarker(marker); // Zmień wygląd markera
+            displayStopDetails(marker);
 
             return true;
+        });
+
+        // Obsługa kliknięcia w puste miejsce
+        mMap.setOnMapClickListener(latLng -> {
+            if (activeMarker != null) {
+                // Resetuj aktywny marker
+                resetMarkerAppearance(activeMarker);
+                activeMarker = null;
+            }
+
+            // Ukryj panel dolny
+            findViewById(R.id.bottom_panel).setVisibility(View.GONE);
         });
 
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -230,4 +224,73 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(true);
     }
+
+    // Zmiana wyglądu aktywnego markera
+    private void highlightMarker(Marker marker) {
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)); // Kolor: niebieski
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15f));
+    }
+
+    // Resetowanie wyglądu markera do domyślnego
+    private void resetMarkerAppearance(Marker marker) {
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)); // Kolor: czerwony
+    }
+
+
+    private void centerMapBasedOnLocation() {
+        // Szczecin center coordinates
+        LatLng szczecinCenter = new LatLng(53.4285, 14.5528);
+        float radiusKm = 20.0f;
+
+        // Check user location once
+        if (mMap.isMyLocationEnabled() && mMap.getMyLocation() != null) {
+            android.location.Location location = mMap.getMyLocation();
+            LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+            float[] distance = new float[1];
+            android.location.Location.distanceBetween(userLocation.latitude, userLocation.longitude,
+                    szczecinCenter.latitude, szczecinCenter.longitude, distance);
+
+            if (distance[0] / 1000 > radiusKm) {
+                // Outside Szczecin - center on the first marker without showing details
+                if (!markersList.isEmpty()) {
+                    Marker firstMarker = markersList.get(0);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstMarker.getPosition(), 14f));
+                }
+            } else {
+                // Inside Szczecin - center on user location
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 14f));
+            }
+        } else {
+            // Location unavailable, center on Szczecin
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(szczecinCenter, 14f));
+        }
+    }
+
+
+    private void displayStopDetails(Marker marker) {
+        String stopName = marker.getTitle();
+        LatLng stopPosition = marker.getPosition();
+
+        TextView stopNameView = findViewById(R.id.stop_name);
+        stopNameView.setText(stopName);
+
+        findViewById(R.id.bottom_panel).setVisibility(View.VISIBLE);
+
+        findViewById(R.id.view_schedule_button).setOnClickListener(v -> {
+            Intent intent = new Intent(MapsActivity.this, busStopResult.class);
+            intent.putExtra("BusStopName", stopName);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.navigate_button).setOnClickListener(v -> {
+            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + stopPosition.latitude + "," + stopPosition.longitude + "&mode=w");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+        });
+
+        // Animacja przesunięcia i przybliżenia mapy na marker
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 16f));
+    }
+
 }
