@@ -18,34 +18,36 @@
         android:background="#FFFFFF">
 
         <!-- Avatar Image -->
-        <ImageView
-            android:id="@+id/avatarMichal"
-            android:layout_width="310dp"
-            android:layout_height="420dp"
-            android:layout_marginTop="100dp"
-            android:contentDescription="@string/avatarDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/awatarmichal1" />
 
         <!-- Signing Text -->
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="411dp"
+            android:layout_height="402dp"
+            android:layout_marginTop="96dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Bus Stop Image -->
+
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="300dp"
-            android:layout_height="80dp"
+            android:layout_width="376dp"
+            android:layout_height="126dp"
+            android:layout_marginTop="504dp"
             android:fontFamily="@font/baloo"
             android:gravity="center_horizontal"
             android:text="@string/signingTextPlaceholder"
             android:textAlignment="center"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.578"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/avatarMichal" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Bus Stop Image -->
         <ImageView
             android:id="@+id/busStopImage"
             android:layout_width="100dp"
@@ -91,16 +93,6 @@
             app:title="@string/home"
             app:titleTextColor="@color/main_3" />
 
-        <VideoView
-            android:id="@+id/videoView"
-            android:layout_width="340dp"
-            android:layout_height="340dp"
-            android:layout_marginTop="164dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.492"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- NavigationView for the drawer menu -->
@@ -109,6 +101,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:visibility="gone"
         app:headerLayout="@layout/header"
         app:menu="@menu/main_menu" />
 
