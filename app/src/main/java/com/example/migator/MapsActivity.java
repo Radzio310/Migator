@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -39,6 +40,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
@@ -91,6 +94,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+
+        /*-----URUCHAMIANIE WIDEO-----*/
+        AtomicInteger flaga = new AtomicInteger(1);
+
+        VideoView videoView = findViewById(R.id.videoView3);
+        AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ponizej_widzisz_mape));
+
+        videoView.setVideoURI(videoUri.get());
+        videoView.start();
+
+        videoView.setOnCompletionListener(mp -> {
+            if (flaga.get() == 1) {
+                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.zaznacz_przystanek_aby_zobaczyc_rozklad));
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+                flaga.getAndIncrement();
+            } else if (flaga.get() == 2){
+                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_5));
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+            }
+        });
+
     }
 
     @Override
@@ -203,6 +229,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             activeMarker = marker;
             highlightMarker(marker); // Zmień wygląd markera
             displayStopDetails(marker);
+            VideoView videoView = findViewById(R.id.videoView3);
+            AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.nacisnij_nawiguj));
+
+            videoView.setVideoURI(videoUri.get());
+            videoView.start();
+
 
             return true;
         });

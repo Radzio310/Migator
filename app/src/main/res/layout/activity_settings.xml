@@ -28,17 +28,6 @@
             app:title="@string/settings"
             app:titleTextColor="@color/main_3" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="250dp"
-            android:layout_height="300dp"
-            android:layout_marginTop="76dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/awatarmichal1" />
-
         <Button
             android:id="@+id/goBackButton"
             android:layout_width="133dp"
@@ -130,7 +119,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            tools:layout_editor_absoluteY="376dp" />
 
         <Button
             android:id="@+id/saveChangesButton"
@@ -149,9 +138,17 @@
             app:layout_constraintTop_toBottomOf="@+id/textView5"
             app:layout_constraintVertical_bias="0.5" />
 
+        <VideoView
+            android:id="@+id/videoView2"
+            android:layout_width="395dp"
+            android:layout_height="292dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="76dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     <com.google.android.material.navigation.NavigationView

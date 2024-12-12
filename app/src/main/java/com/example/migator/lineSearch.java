@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.VideoView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class lineSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -159,6 +163,33 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
         } else {
             Toast.makeText(this, "Błąd podczas ładowania danych przystanków", Toast.LENGTH_SHORT).show();
         }
+
+
+        /*-----URUCHAMIANIE WIDEO-----*/
+        AtomicInteger flaga = new AtomicInteger(1);
+
+        VideoView videoView = findViewById(R.id.videoView4);
+        TextView textView = findViewById(R.id.textView7);
+        AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.wpisz_numer_linii));
+        textView.setText("Wpisz numer linii, następnie naciśnij 'Wyszukaj'");
+        videoView.setVideoURI(videoUri.get());
+        videoView.start();
+
+        videoView.setOnCompletionListener(mp -> {
+            if (flaga.get() == 1) {
+                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.aby_wrocic_nacisnij_powrot));
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+                textView.setText("Aby wrócić na stronę główną, naciśnij przycisk 'Powrót'");
+                flaga.getAndIncrement();
+            } else if (flaga.get() == 2){
+                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_5));
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+            }
+        });
+
+
     }
 
 
@@ -205,18 +236,42 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
         if (lineNumber.isEmpty())
         {
             Toast.makeText(this, "Nie podano linii.", Toast.LENGTH_SHORT).show();
+            VideoView videoView = findViewById(R.id.videoView4);
+            TextView textView = findViewById(R.id.textView7);
+            AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.brak_pojazdu_o_takim_numerze));
+            textView.setText("Brak pojazdu o takim numerze");
+            videoView.setVideoURI(videoUri.get());
+            videoView.start();
         }
         else if (lineInfo == null)
         {
             Toast.makeText(this, "Nie znaleziono takiej linii.", Toast.LENGTH_SHORT).show();
+            VideoView videoView = findViewById(R.id.videoView4);
+            TextView textView = findViewById(R.id.textView7);
+            AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.brak_pojazdu_o_takim_numerze));
+            textView.setText("Brak pojazdu o takim numerze");
+            videoView.setVideoURI(videoUri.get());
+            videoView.start();
         }
         else if (busStopName.isEmpty())
         {
             Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
+            VideoView videoView = findViewById(R.id.videoView4);
+            TextView textView = findViewById(R.id.textView7);
+            AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.blad_podczas_wyszukiwania_przystanku));
+            textView.setText("Wystąpił błąd");
+            videoView.setVideoURI(videoUri.get());
+            videoView.start();
         }
         else if (stopInfo == null)
         {
             Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
+            VideoView videoView = findViewById(R.id.videoView4);
+            TextView textView = findViewById(R.id.textView7);
+            AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.blad_podczas_wyszukiwania_przystanku));
+            textView.setText("Wystąpił błąd");
+            videoView.setVideoURI(videoUri.get());
+            videoView.start();
         }
         else
         {

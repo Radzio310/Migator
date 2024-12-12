@@ -2,6 +2,7 @@ package com.example.migator;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.Menu;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.TextView;
+import android.widget.VideoView;
 
 
 import androidx.annotation.NonNull;
@@ -20,6 +23,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class settings extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -47,6 +53,7 @@ public class settings extends AppCompatActivity implements NavigationView.OnNavi
         Menu menu = navigationView.getMenu();
         menu.findItem(R.id.nav_home).setVisible(true); //przykład
 
+
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -58,7 +65,41 @@ public class settings extends AppCompatActivity implements NavigationView.OnNavi
 
         // Załaduj zapisane dane
         loadSavedPreferences();
+
+        /*-----URUCHAMIANIE WIDEO-----*/
+        AtomicInteger flaga = new AtomicInteger(1); // flaga do wybierania filmu do odpalenia
+
+        VideoView videoView = findViewById(R.id.videoView2);
+        TextView textView = findViewById(R.id.textView3);
+        AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ponizej_znajdziesz_ustawienia)); // ustawienie filmu
+
+        videoView.setVideoURI(videoUri.get());
+        videoView.start(); // uruchomienie filmu
+        textView.setText("Poniżej znajdziesz ustawienia aplikacji");
+
+        videoView.setOnCompletionListener(mp -> { // czekanie az sie zakonczy obecny film
+            if (flaga.get() == 1) { // sprawdzenie czy zakonczyl sie pierwszy film
+                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.mozesz_tu_dostosowac_preferencje)); // ustawienie drugiego filmu
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+                textView.setText("Możesz tu dostosować swoje preferencje i wygląd aplikacji");
+                flaga.getAndIncrement(); // zwiekszenie flagi
+            } else if (flaga.get() == 2){
+                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.aby_wrocic_nacisnij_powrot)); // ustawienie drugiego filmu
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+                textView.setText("Aby wrócić na stronę główną, naciśnij przycisk 'Powrót'");
+                flaga.getAndIncrement();
+            } else if (flaga.get() == 3){
+                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_5));
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+                textView.setText("");
+            }
+        });
     }
+
+
 
     private void loadSavedPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences("SettingsPrefs", MODE_PRIVATE);

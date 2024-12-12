@@ -2,6 +2,7 @@ package com.example.migator;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,8 +25,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class lineResult extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -70,8 +75,10 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
         line_number = getIntent().getStringExtra("BusLineName");
 
         if (stopInfo != null) {
+
             name = stopInfo.first;
             number = stopInfo.second;
+
 
             Log.d("Stop Info", "Stop Name: " + name + ", Stop Number: " + number);
         } else {
@@ -135,6 +142,92 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
             // Set the direction text
             ((TextView) findViewById(directionIds[i])).setText("Kierunek: " + departure.getDirection());
         }
+
+        /*Składanie animacji*/
+        DeparturesResponse.Departure departure = departures.get(0);
+        String direction = (String) ((TextView) findViewById(R.id.direction1)).getText();
+        String time = departure.getTime();
+
+        try {
+            //Field fieldName = R.raw.class.getDeclaredField(name);
+            //int videoName = fieldName.getInt(null);
+
+            Field fieldNumber = R.raw.class.getDeclaredField("_" + lineNumber);
+            int videoNumber = fieldNumber.getInt(null);
+            Log.d("Sukces","Pobrano numer");
+
+            //Field fieldDirection = R.raw.class.getDeclaredField(direction);
+            //int videoDirection = fieldDirection.getInt(null);
+
+            Field fieldTime = R.raw.class.getDeclaredField("_" + time);
+            int videoTime = fieldTime.getInt(null);
+            Log.d("Sukces","Pobrano czas");
+
+            AtomicInteger flaga = new AtomicInteger(1); // flaga do wybierania filmu do odpalenia
+
+            VideoView videoView = findViewById(R.id.videoView5);
+            TextView textView = findViewById(R.id.textView6);
+            AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.najblizszy_odjazd_linii)); // ustawienie filmu
+
+            videoView.setVideoURI(videoUri.get());
+            videoView.start();
+            textView.setText("Najbliższy odjazd linii");
+
+            videoView.setOnCompletionListener(mp -> {
+                if (flaga.get() == 1) {
+                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + videoNumber)); // ustawienie drugiego filmu
+                    videoView.setVideoURI(videoUri.get());
+                    videoView.start();
+                    textView.setText(lineNumber);
+                    flaga.getAndIncrement();
+                } else if (flaga.get() == 2){
+                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.jest_za)); // ustawienie drugiego filmu
+                    videoView.setVideoURI(videoUri.get());
+                    videoView.start();
+                    textView.setText("jest za");
+                    flaga.getAndIncrement();
+                } else if (flaga.get() == 3){
+                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + videoTime));
+                    videoView.setVideoURI(videoUri.get());
+                    videoView.start();
+                    textView.setText(time);
+                    flaga.getAndIncrement();
+                } else if (flaga.get() == 4){
+                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.w_kierunku));
+                    videoView.setVideoURI(videoUri.get());
+                    videoView.start();
+                    textView.setText("minut w kierunku");
+                    flaga.getAndIncrement();
+                } else if (flaga.get() == 4){
+                    //videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + videoDirection));
+                    //videoView.setVideoURI(videoUri.get());
+                    //videoView.start();
+                    textView.setText(direction);
+                    flaga.getAndIncrement();
+                } else if (flaga.get() == 5) {
+                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.aby_wrocic_nacisnij_powrot));
+                    videoView.setVideoURI(videoUri.get());
+                    videoView.start();
+                    textView.setText("Aby wrócić na stronę główną, naciśnij 'Powrót'");
+                    flaga.getAndIncrement();
+                } else if (flaga.get() == 6) {
+                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_3));
+                    videoView.setVideoURI(videoUri.get());
+                    videoView.start();
+                    textView.setText("");
+                }
+            });
+
+
+
+        } catch (Exception e){
+            Log.d("Bład","Wystąpił błąd podczas składania animacji");
+            Log.d("Error",e.toString());
+        }
+
+
+
+
         if (departures.isEmpty()) {
             TextView emptyView = ((TextView) findViewById(directionIds[0]));
             emptyView.setText("Brak odjazdów tej linii");
