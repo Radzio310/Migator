@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:fitsSystemWindows="true"
-    tools:openDrawer="end">
+    tools:openDrawer="start">
 
 
     <!-- Main content area with ConstraintLayout -->
@@ -17,17 +17,6 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF">
 
-        <ImageView
-            android:id="@+id/logoFull"
-            android:layout_width="150dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:srcCompat="@drawable/migator_logo" />
-
         <!-- Avatar Image -->
 
 
@@ -35,13 +24,12 @@
 
         <VideoView
             android:id="@+id/videoView"
-            android:layout_width="411dp"
-            android:layout_height="402dp"
-            android:layout_marginTop="96dp"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <!-- Bus Stop Image -->
 
@@ -50,7 +38,6 @@
             android:id="@+id/textView2"
             android:layout_width="376dp"
             android:layout_height="126dp"
-            android:layout_marginTop="504dp"
             android:fontFamily="@font/baloo"
             android:gravity="center_horizontal"
             android:text="@string/signingTextPlaceholder"
@@ -59,21 +46,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.578"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/busStopImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/busStopDescription"
-            android:onClick="GoTo_busStopSearch"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="0.5"
-            app:srcCompat="@drawable/bus_stop" />
+            app:layout_constraintTop_toBottomOf="@id/videoView" />
 
 
         <!-- Bus Stop Name Text -->
@@ -136,8 +109,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:visibility="gone"
         app:headerLayout="@layout/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/main_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

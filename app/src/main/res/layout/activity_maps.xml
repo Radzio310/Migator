@@ -13,7 +13,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="@color/main">
 
         <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
@@ -23,23 +23,26 @@
             android:background="@color/main"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:titleTextColor="@color/main_3"
-            app:title="@string/map" />
+            app:title="@string/map"
+            app:titleTextColor="@color/main_3" />
 
         <!-- Pasek wyszukiwania -->
         <AutoCompleteTextView
             android:id="@+id/bus_stop_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:layout_margin="8dp"
-            android:hint="Wyszukaj przystanek"
-            android:textColor="@color/main"
-            android:drawableLeft="@drawable/searchbusstop"
             android:background="@drawable/dropdown_background"
-            app:layout_constraintStart_toStartOf="parent"
+            android:drawableLeft="@drawable/searchbusstop"
+            android:hint="Wyszukaj przystanek"
+            android:padding="8dp"
+            android:textColor="@color/main"
+            app:layout_constraintBottom_toTopOf="@+id/map"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.5" />
 
         <!-- Fragment mapy -->
         <fragment
@@ -47,23 +50,23 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/bus_stop_search"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bus_stop_search" />
 
         <!-- Dolny panel -->
         <LinearLayout
             android:id="@+id/bottom_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/white"
+            android:orientation="vertical"
             android:padding="16dp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/avatarMaps"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
 
             <TextView
@@ -71,10 +74,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Nazwa przystanku"
                 android:fontFamily="@font/baloo"
-                android:textColor="@color/black"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:text="Nazwa przystanku"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
