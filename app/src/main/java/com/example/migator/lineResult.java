@@ -2,6 +2,7 @@ package com.example.migator;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -54,7 +56,7 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
         letterMapping.put('ó', "_o_");
         letterMapping.put('ś', "_s_");
         letterMapping.put('ź', "_z_");
-        letterMapping.put('ż', "_z_");
+        letterMapping.put('ż', "_z__");
     }
 
     @Override
@@ -166,15 +168,22 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
         String time = departure.getTime();
 
         try {
-            //Field fieldName = R.raw.class.getDeclaredField(name);
-            //int videoName = fieldName.getInt(null);
-
             Field fieldNumber = R.raw.class.getDeclaredField("_" + lineNumber);
             int videoNumber = fieldNumber.getInt(null);
-            Log.d("Sukces","Pobrano numer");
 
-            //Field fieldDirection = R.raw.class.getDeclaredField(direction);
-            //int videoDirection = fieldDirection.getInt(null);
+            String directionNameWithPolishChars = direction.split(" ")[1];
+            String directionName = removeDiacritics(directionNameWithPolishChars.toLowerCase());
+            Log.d("Info",directionName);
+            Log.d("Info",directionNameWithPolishChars);
+
+            int videoDirection = 0;
+            try {
+                Field fieldDirection = R.raw.class.getDeclaredField(directionName);
+                videoDirection = fieldDirection.getInt(null);
+            } catch (Exception e){
+
+            }
+
 
             Field fieldTime = R.raw.class.getDeclaredField("_" + time);
             int videoTime = fieldTime.getInt(null);
@@ -190,15 +199,16 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
             videoView.start();
             textView.setText("Najbliższy odjazd linii");
 
+            int finalVideoDirection = videoDirection;
             videoView.setOnCompletionListener(mp -> {
                 if (flaga.get() == 1) {
-                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + videoNumber)); // ustawienie drugiego filmu
+                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + videoNumber));
                     videoView.setVideoURI(videoUri.get());
                     videoView.start();
                     textView.setText(lineNumber);
                     flaga.getAndIncrement();
                 } else if (flaga.get() == 2){
-                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.jest_za)); // ustawienie drugiego filmu
+                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.jest_za));
                     videoView.setVideoURI(videoUri.get());
                     videoView.start();
                     textView.setText("jest za");
@@ -215,19 +225,29 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
                     videoView.start();
                     textView.setText("minut w kierunku");
                     flaga.getAndIncrement();
-                } else if (flaga.get() == 4){
-                    //videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + videoDirection));
-                    //videoView.setVideoURI(videoUri.get());
-                    //videoView.start();
-                    textView.setText(direction);
-                    flaga.getAndIncrement();
-                } else if (flaga.get() == 5) {
+                } else if (flaga.get() == 5){
+                    textView.setText(directionNameWithPolishChars);
+
+                    if (finalVideoDirection != 0) {
+                        videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + finalVideoDirection));
+                        videoView.setVideoURI(videoUri.get());
+                        videoView.start();
+                        flaga.getAndIncrement();
+                    } else {
+                        prepareLetterVideos(directionNameWithPolishChars);
+                        playNextVideo(videoView);
+                        if (!playNextVideo(videoView)){
+                            flaga.getAndIncrement();
+                        }
+                    }
+
+                } else if (flaga.get() == 6) {
                     videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.aby_wrocic_nacisnij_powrot));
                     videoView.setVideoURI(videoUri.get());
                     videoView.start();
                     textView.setText("Aby wrócić na stronę główną, naciśnij 'Powrót'");
                     flaga.getAndIncrement();
-                } else if (flaga.get() == 6) {
+                } else if (flaga.get() == 7) {
                     videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_3));
                     videoView.setVideoURI(videoUri.get());
                     videoView.start();
@@ -297,6 +317,64 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
         startActivity(intent);
     }
 
+    /* FUNKCJE POMOCNICZE DO GENEROWANIA ANIMACJI*/
+
+    private String removeDiacritics(String input) {
+        StringBuilder result = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            switch (c) {
+                case 'ą': result.append('a'); break;
+                case 'ć': result.append('c'); break;
+                case 'ę': result.append('e'); break;
+                case 'ł': result.append('l'); break;
+                case 'ń': result.append('n'); break;
+                case 'ó': result.append('o'); break;
+                case 'ś': result.append('s'); break;
+                case 'ź': result.append('z'); break;
+                case 'ż': result.append('z'); break;
+                case ' ': result.append(""); break;
+                default: result.append(c); break;
+            }
+        }
+        return result.toString();
+    }
+
+
+    private void prepareLetterVideos(String stopName) {
+        SpellingQueue.clear(); // Wyczyść kolejkę na wszelki wypadek
+        for (char letter : stopName.toLowerCase().toCharArray()) {
+            if (Character.isLetter(letter)) {
+                String fileName;
+                if (letterMapping.containsKey(letter)) {
+                    fileName = letterMapping.get(letter);
+                } else {
+                    fileName = "_" + letter; // np. "_b"
+                }
+
+                // Pobierz identyfikator zasobu z folderu raw
+                int videoResId = getResources().getIdentifier(fileName, "raw", getPackageName());
+                if (videoResId != 0) {
+                    String videoUri = "android.resource://" + getPackageName() + "/" + videoResId;
+                    SpellingQueue.add(videoUri);
+                } else {
+                    Log.d("Resource Error", "Nie znaleziono zasobu dla: " + fileName);
+                }
+            }
+        }
+    }
+
+
+    private boolean playNextVideo(VideoView videoView) {
+        if (SpellingIndex < SpellingQueue.size()) {
+            String videoUri = SpellingQueue.get(SpellingIndex);
+            videoView.setVideoURI(Uri.parse(videoUri));
+            videoView.start();
+            SpellingIndex++;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 }
