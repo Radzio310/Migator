@@ -26,8 +26,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -39,6 +42,20 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
     String name;
     String number;
     String line_number;
+    private List<String> SpellingQueue = new ArrayList<>();
+    private int SpellingIndex = 0;
+    private static final Map<Character, String> letterMapping = new HashMap<>();
+    static {
+        letterMapping.put('ą', "_a_");
+        letterMapping.put('ć', "_c_");
+        letterMapping.put('ę', "_e_");
+        letterMapping.put('ł', "_l_");
+        letterMapping.put('ń', "_n_");
+        letterMapping.put('ó', "_o_");
+        letterMapping.put('ś', "_s_");
+        letterMapping.put('ź', "_z_");
+        letterMapping.put('ż', "_z_");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
