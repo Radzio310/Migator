@@ -96,8 +96,6 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,45 +119,46 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
         navigationView.setCheckedItem(R.id.nav_searchLine);
 
         // Inicjalizacja AutoCompleteTextView dla numeru linii
         AutoCompleteTextView lineNumberView = findViewById(R.id.lineNumber);
-        List<String> lineNumbers = JsonUtils.loadLineNumbersFromJson(this);
+        AutoCompleteTextView busStopView = findViewById(R.id.lineBusStop);
 
+        // Ładowanie danych do pól AutoComplete
+        List<String> lineNumbers = JsonUtils.loadLineNumbersFromJson(this);
         if (lineNumbers != null) {
             Set<String> uniqueLineNumbers = new HashSet<>(lineNumbers);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueLineNumbers));
             lineNumberView.setAdapter(adapter);
             lineNumberView.setThreshold(1);
-
-            lineNumberView.setOnItemClickListener((parent, view, position, id) -> {
-                String selectedLine = parent.getItemAtPosition(position).toString();
-                Toast.makeText(this, "Wybrana linia: " + selectedLine, Toast.LENGTH_SHORT).show();
-            });
         } else {
             Toast.makeText(this, "Błąd podczas ładowania danych linii", Toast.LENGTH_SHORT).show();
         }
 
-        // Inicjalizacja AutoCompleteTextView dla przystanku
-        AutoCompleteTextView busStopView = findViewById(R.id.lineBusStop);
         List<String> stopNames = JsonUtils.loadStopNamesFromJson(this);
-
         if (stopNames != null) {
             Set<String> uniqueStopNames = new HashSet<>(stopNames);
             ArrayAdapter<String> stopAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueStopNames));
             busStopView.setAdapter(stopAdapter);
             busStopView.setThreshold(1);
-
-            busStopView.setOnItemClickListener((parent, view, position, id) -> {
-                String selectedStop = parent.getItemAtPosition(position).toString();
-                Toast.makeText(this, "Wybrany przystanek: " + selectedStop, Toast.LENGTH_SHORT).show();
-            });
         } else {
             Toast.makeText(this, "Błąd podczas ładowania danych przystanków", Toast.LENGTH_SHORT).show();
         }
+
+        // Obsługa klawisza Enter w polu "numer linii"
+        lineNumberView.setOnEditorActionListener((v, actionId, event) -> {
+            busStopView.requestFocus(); // Przeniesienie kursora do następnego pola
+            return true;
+        });
+
+        // Obsługa klawisza Enter w polu "nazwa przystanku"
+        busStopView.setOnEditorActionListener((v, actionId, event) -> {
+            GoTo_LineResult(v); // Wywołanie metody wyszukiwania
+            return true;
+        });
     }
+
 
 
     @Override

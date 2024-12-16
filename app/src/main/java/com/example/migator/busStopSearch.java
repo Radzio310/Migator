@@ -121,6 +121,12 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
             Toast.makeText(this, "Błąd podczas ładowania danych przystanków", Toast.LENGTH_SHORT).show();
         }
 
+        // Obsługa klawisza Enter w polu "nazwa przystanku"
+        busStopView.setOnEditorActionListener((v, actionId, event) -> {
+            GoTo_busStopResult(v); // Wywołanie metody wyszukiwania
+            return true;
+        });
+
     }
 
     @Override
