@@ -51,7 +51,7 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
         letterMapping.put('ą', "_a_");
         letterMapping.put('ć', "_c_");
         letterMapping.put('ę', "_e_");
-        letterMapping.put('ł', "_l_");
+        letterMapping.put('ł', "_l");
         letterMapping.put('ń', "_n_");
         letterMapping.put('ó', "_o_");
         letterMapping.put('ś', "_s_");
@@ -173,8 +173,6 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
 
             String directionNameWithPolishChars = direction.split(" ")[1];
             String directionName = removeDiacritics(directionNameWithPolishChars.toLowerCase());
-            Log.d("Info",directionName);
-            Log.d("Info",directionNameWithPolishChars);
 
             int videoDirection = 0;
             try {
@@ -187,9 +185,8 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
 
             Field fieldTime = R.raw.class.getDeclaredField("_" + time);
             int videoTime = fieldTime.getInt(null);
-            Log.d("Sukces","Pobrano czas");
 
-            AtomicInteger flaga = new AtomicInteger(1); // flaga do wybierania filmu do odpalenia
+            AtomicInteger flaga = new AtomicInteger(1);
 
             VideoView videoView = findViewById(R.id.videoView5);
             TextView textView = findViewById(R.id.textView6);
@@ -198,6 +195,9 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
             videoView.setVideoURI(videoUri.get());
             videoView.start();
             textView.setText("Najbliższy odjazd linii");
+
+
+            prepareLetterVideos(directionNameWithPolishChars); // przygotuj nagrania do literowania
 
             int finalVideoDirection = videoDirection;
             videoView.setOnCompletionListener(mp -> {
@@ -234,20 +234,16 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
                         videoView.start();
                         flaga.getAndIncrement();
                     } else {
-                        prepareLetterVideos(directionNameWithPolishChars);
-                        playNextVideo(videoView);
                         if (!playNextVideo(videoView)){
+                            videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.aby_wrocic_nacisnij_powrot));
+                            videoView.setVideoURI(videoUri.get());
+                            videoView.start();
+                            textView.setText("Aby wrócić na stronę główną, naciśnij 'Powrót'");
                             flaga.getAndIncrement();
                         }
                     }
 
                 } else if (flaga.get() == 6) {
-                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.aby_wrocic_nacisnij_powrot));
-                    videoView.setVideoURI(videoUri.get());
-                    videoView.start();
-                    textView.setText("Aby wrócić na stronę główną, naciśnij 'Powrót'");
-                    flaga.getAndIncrement();
-                } else if (flaga.get() == 7) {
                     videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_3));
                     videoView.setVideoURI(videoUri.get());
                     videoView.start();
@@ -258,6 +254,12 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
 
 
         } catch (Exception e){
+            TextView textView = findViewById(R.id.textView6);
+            textView.setText("Wystąpił problem podczas tworzenia animacji");
+            VideoView videoView = findViewById(R.id.videoView5);
+            AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.blad_podczas_wyszukiwania_przystanku));
+            videoView.setVideoURI(videoUri.get());
+            videoView.start();
             Log.d("Bład","Wystąpił błąd podczas składania animacji");
             Log.d("Error",e.toString());
         }
@@ -266,7 +268,7 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
 
 
         if (departures.isEmpty()) {
-            TextView emptyView = ((TextView) findViewById(directionIds[0]));
+            TextView emptyView = findViewById(directionIds[0]);
             emptyView.setText("Brak odjazdów tej linii");
             emptyView.setGravity(Gravity.CENTER);
             emptyView.setTypeface(ResourcesCompat.getFont(this, R.font.baloo), Typeface.ITALIC); // Czcionka Baloo i pochyłość
@@ -342,6 +344,7 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
 
     private void prepareLetterVideos(String stopName) {
         SpellingQueue.clear(); // Wyczyść kolejkę na wszelki wypadek
+        SpellingIndex = 0;
         for (char letter : stopName.toLowerCase().toCharArray()) {
             if (Character.isLetter(letter)) {
                 String fileName;
@@ -350,7 +353,6 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
                 } else {
                     fileName = "_" + letter; // np. "_b"
                 }
-
                 // Pobierz identyfikator zasobu z folderu raw
                 int videoResId = getResources().getIdentifier(fileName, "raw", getPackageName());
                 if (videoResId != 0) {
@@ -365,7 +367,7 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
 
 
     private boolean playNextVideo(VideoView videoView) {
-        if (SpellingIndex < SpellingQueue.size()) {
+        if (SpellingIndex <= SpellingQueue.size() - 1) {
             String videoUri = SpellingQueue.get(SpellingIndex);
             videoView.setVideoURI(Uri.parse(videoUri));
             videoView.start();
