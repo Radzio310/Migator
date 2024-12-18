@@ -163,108 +163,137 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
         }
 
         /*Składanie animacji*/
-        DeparturesResponse.Departure departure = departures.get(0);
-        String direction = (String) ((TextView) findViewById(R.id.direction1)).getText();
-        String time = departure.getTime();
-
-        try {
-            Field fieldNumber = R.raw.class.getDeclaredField("_" + lineNumber);
-            int videoNumber = fieldNumber.getInt(null);
-
-            String directionNameWithPolishChars = direction.split(" ")[1];
-            String directionName = removeDiacritics(directionNameWithPolishChars.toLowerCase());
-
-            int videoDirection = 0;
-            try {
-                Field fieldDirection = R.raw.class.getDeclaredField(directionName);
-                videoDirection = fieldDirection.getInt(null);
-            } catch (Exception e){
-
-            }
-
-
-            Field fieldTime = R.raw.class.getDeclaredField("_" + time);
-            int videoTime = fieldTime.getInt(null);
+        if (departures.isEmpty()){
 
             AtomicInteger flaga = new AtomicInteger(1);
-
             VideoView videoView = findViewById(R.id.videoView5);
             TextView textView = findViewById(R.id.textView6);
-            AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.najblizszy_odjazd_linii)); // ustawienie filmu
+            AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.brak_pojazdu_o_takim_numerze));
 
             videoView.setVideoURI(videoUri.get());
             videoView.start();
-            textView.setText("Najbliższy odjazd linii");
+            textView.setText("Brak pojazdu o takim numerze");
 
-
-            prepareLetterVideos(directionNameWithPolishChars); // przygotuj nagrania do literowania
-
-            int finalVideoDirection = videoDirection;
             videoView.setOnCompletionListener(mp -> {
-                if (flaga.get() == 1) {
-                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + videoNumber));
+                if (flaga.get() == 1){
+                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.aby_wrocic_nacisnij_powrot));
                     videoView.setVideoURI(videoUri.get());
                     videoView.start();
-                    textView.setText(lineNumber);
+                    textView.setText("Aby wrócić naciśnij powrót");
                     flaga.getAndIncrement();
                 } else if (flaga.get() == 2){
-                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.jest_za));
-                    videoView.setVideoURI(videoUri.get());
-                    videoView.start();
-                    textView.setText("jest za");
-                    flaga.getAndIncrement();
-                } else if (flaga.get() == 3){
-                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + videoTime));
-                    videoView.setVideoURI(videoUri.get());
-                    videoView.start();
-                    textView.setText(time);
-                    flaga.getAndIncrement();
-                } else if (flaga.get() == 4){
-                    videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.w_kierunku));
-                    videoView.setVideoURI(videoUri.get());
-                    videoView.start();
-                    textView.setText("minut w kierunku");
-                    flaga.getAndIncrement();
-                } else if (flaga.get() == 5){
-                    textView.setText(directionNameWithPolishChars);
-
-                    if (finalVideoDirection != 0) {
-                        videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + finalVideoDirection));
-                        videoView.setVideoURI(videoUri.get());
-                        videoView.start();
-                        flaga.getAndIncrement();
-                    } else {
-                        if (!playNextVideo(videoView)){
-                            videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.aby_wrocic_nacisnij_powrot));
-                            videoView.setVideoURI(videoUri.get());
-                            videoView.start();
-                            textView.setText("Aby wrócić na stronę główną, naciśnij 'Powrót'");
-                            flaga.getAndIncrement();
-                        }
-                    }
-
-                } else if (flaga.get() == 6) {
                     videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_3));
                     videoView.setVideoURI(videoUri.get());
                     videoView.start();
                     textView.setText("");
                 }
+
             });
 
+        } else {
+            DeparturesResponse.Departure departure = departures.get(0);
+            String direction = "";
+            direction = (String) ((TextView) findViewById(R.id.direction1)).getText();
+            String time = departure.getTime();
+            Log.d("Info", direction);
+
+            try {
+                Field fieldNumber = R.raw.class.getDeclaredField("_" + lineNumber);
+                int videoNumber = fieldNumber.getInt(null);
+
+                String directionNameWithPolishChars = direction.split(" ")[1];
+                String directionName = removeDiacritics(directionNameWithPolishChars.toLowerCase());
+
+                int videoDirection = 0;
+                try {
+                    Field fieldDirection = R.raw.class.getDeclaredField(directionName);
+                    videoDirection = fieldDirection.getInt(null);
+                } catch (Exception e) {
+
+                }
 
 
-        } catch (Exception e){
-            TextView textView = findViewById(R.id.textView6);
-            textView.setText("Wystąpił problem podczas tworzenia animacji");
-            VideoView videoView = findViewById(R.id.videoView5);
-            AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.blad_podczas_wyszukiwania_przystanku));
-            videoView.setVideoURI(videoUri.get());
-            videoView.start();
-            Log.d("Bład","Wystąpił błąd podczas składania animacji");
-            Log.d("Error",e.toString());
+                Field fieldTime = R.raw.class.getDeclaredField("_" + time);
+                int videoTime = fieldTime.getInt(null);
+
+                AtomicInteger flaga = new AtomicInteger(1);
+
+                VideoView videoView = findViewById(R.id.videoView5);
+                TextView textView = findViewById(R.id.textView6);
+                AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.najblizszy_odjazd_linii)); // ustawienie filmu
+
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+                textView.setText("Najbliższy odjazd linii");
+
+
+                prepareLetterVideos(directionNameWithPolishChars); // przygotuj nagrania do literowania
+
+                int finalVideoDirection = videoDirection;
+                videoView.setOnCompletionListener(mp -> {
+                    if (flaga.get() == 1) {
+                        videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + videoNumber));
+                        videoView.setVideoURI(videoUri.get());
+                        videoView.start();
+                        textView.setText(lineNumber);
+                        flaga.getAndIncrement();
+                    } else if (flaga.get() == 2) {
+                        videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.jest_za));
+                        videoView.setVideoURI(videoUri.get());
+                        videoView.start();
+                        textView.setText("jest za");
+                        flaga.getAndIncrement();
+                    } else if (flaga.get() == 3) {
+                        videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + videoTime));
+                        videoView.setVideoURI(videoUri.get());
+                        videoView.start();
+                        textView.setText(time);
+                        flaga.getAndIncrement();
+                    } else if (flaga.get() == 4) {
+                        videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.w_kierunku));
+                        videoView.setVideoURI(videoUri.get());
+                        videoView.start();
+                        textView.setText("minut w kierunku");
+                        flaga.getAndIncrement();
+                    } else if (flaga.get() == 5) {
+                        textView.setText(directionNameWithPolishChars);
+
+                        if (finalVideoDirection != 0) {
+                            videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + finalVideoDirection));
+                            videoView.setVideoURI(videoUri.get());
+                            videoView.start();
+                            flaga.getAndIncrement();
+                        } else {
+                            if (!playNextVideo(videoView)) {
+                                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.aby_wrocic_nacisnij_powrot));
+                                videoView.setVideoURI(videoUri.get());
+                                videoView.start();
+                                textView.setText("Aby wrócić na stronę główną, naciśnij 'Powrót'");
+                                flaga.getAndIncrement();
+                            }
+                        }
+
+                    } else if (flaga.get() == 6) {
+                        videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_3));
+                        videoView.setVideoURI(videoUri.get());
+                        videoView.start();
+                        textView.setText("");
+                    }
+                });
+
+
+            } catch (Exception e) {
+                TextView textView = findViewById(R.id.textView6);
+                textView.setText("Wystąpił problem podczas tworzenia animacji");
+                VideoView videoView = findViewById(R.id.videoView5);
+                AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.blad_podczas_wyszukiwania_przystanku));
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+                Log.d("Bład", "Wystąpił błąd podczas składania animacji");
+                Log.d("Error", e.toString());
+            }
+
         }
-
-
 
 
         if (departures.isEmpty()) {
