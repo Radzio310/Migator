@@ -39,17 +39,13 @@
 
         <!-- Obrazek Avatara -->
 
-        <ImageView
-            android:id="@+id/avatarMichal"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/avatarDescription"
-            app:srcCompat="@drawable/awatarmichal1" />
+            <!-- Tekst etykiety Przystanku -->
+            <VideoView
+                android:id="@+id/videoView4"
+                android:layout_width="wrap_content"
+                android:layout_height="322dp" />
 
-        <!-- Tekst etykiety Przystanku -->
-        <TextView
+            <TextView
             android:id="@+id/textView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -124,6 +120,7 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
