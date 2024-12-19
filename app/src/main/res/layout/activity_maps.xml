@@ -13,7 +13,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="@color/main">
 
         <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
@@ -37,9 +37,12 @@
             android:hint="Wyszukaj przystanek"
             android:padding="8dp"
             android:textColor="@color/main"
+            app:layout_constraintBottom_toTopOf="@+id/map"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.5" />
 
         <!-- Fragment mapy -->
         <fragment
@@ -69,6 +72,7 @@
             android:orientation="vertical"
             android:padding="16dp"
             android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/avatarMaps"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
