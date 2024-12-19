@@ -59,8 +59,9 @@
 
         <VideoView
             android:id="@+id/avatarMaps"
-            android:layout_width="164dp"
-            android:layout_height="119dp"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:background="@drawable/map_video"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -68,7 +69,7 @@
             android:id="@+id/bottom_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/rounded_background"
             android:orientation="vertical"
             android:padding="16dp"
             android:visibility="gone"
@@ -76,12 +77,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-
             <TextView
                 android:id="@+id/stop_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:fontFamily="@font/baloo"
                 android:text="Nazwa przystanku"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -90,15 +90,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
 
                 <Button
                     android:id="@+id/view_schedule_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/main"
+                    android:background="@drawable/rounded_button_background_blue"
+                    android:padding="8dp"
+                    android:layout_marginRight="5dp"
                     android:text="@string/checkSchedule"
                     android:textColor="@color/main_3" />
 
@@ -107,7 +110,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/main_2"
+                    android:background="@drawable/rounded_button_background_red"
+                    android:padding="8dp"
+                    android:layout_marginLeft="5dp"
                     android:text="@string/navigationButton"
                     android:textColor="@color/main_3" />
             </LinearLayout>

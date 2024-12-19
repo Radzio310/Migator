@@ -87,8 +87,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         searchView.setOnItemClickListener((parent, view, position, id) -> {
             String selectedStop = parent.getItemAtPosition(position).toString();
 
+            // Zamknij klawiaturę
+            closeKeyboard();
+
             for (Marker marker : markersList) {
                 if (marker.getTitle().equals(selectedStop)) {
+                    if (activeMarker != null) {
+                        // Resetuj wygląd poprzedniego aktywnego markera
+                        resetMarkerAppearance(activeMarker);
+                    }
+
+                    // Ustaw wybrany marker jako aktywny
+                    activeMarker = marker;
+                    highlightMarker(marker);
+
+                    // Wyświetl szczegóły przystanku
                     displayStopDetails(marker);
                     break;
                 }
@@ -324,5 +337,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Animacja przesunięcia i przybliżenia mapy na marker
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 16f));
     }
+
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            android.view.inputmethod.InputMethodManager imm =
+                    (android.view.inputmethod.InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 
 }

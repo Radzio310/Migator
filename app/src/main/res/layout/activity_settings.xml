@@ -112,14 +112,19 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:fontFamily="@font/baloo"
+            android:gravity="center_horizontal"
             android:text="@string/signingTextPlaceholder"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textColor="@color/main_2"
+            android:layout_marginBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="376dp" />
+            app:layout_constraintTop_toBottomOf="@+id/videoView2" />
 
         <Button
             android:id="@+id/saveChangesButton"
@@ -140,12 +145,10 @@
 
         <VideoView
             android:id="@+id/videoView2"
-            android:layout_width="395dp"
-            android:layout_height="292dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="76dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
