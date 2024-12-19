@@ -98,7 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         /*-----URUCHAMIANIE WIDEO-----*/
         AtomicInteger flaga = new AtomicInteger(1);
 
-        VideoView videoView = findViewById(R.id.videoView3);
+        VideoView videoView = findViewById(R.id.avatarMaps);
         AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.ponizej_widzisz_mape));
 
         videoView.setVideoURI(videoUri.get());
@@ -229,7 +229,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             activeMarker = marker;
             highlightMarker(marker); // Zmień wygląd markera
             displayStopDetails(marker);
-            VideoView videoView = findViewById(R.id.videoView3);
+            VideoView videoView = findViewById(R.id.avatarMaps);
             AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.nacisnij_nawiguj));
 
             videoView.setVideoURI(videoUri.get());

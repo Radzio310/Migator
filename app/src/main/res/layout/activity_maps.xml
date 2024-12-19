@@ -58,7 +58,7 @@
         <!-- Dolny panel -->
 
         <VideoView
-            android:id="@+id/videoView3"
+            android:id="@+id/avatarMaps"
             android:layout_width="164dp"
             android:layout_height="119dp"
             app:layout_constraintBottom_toBottomOf="parent"
