@@ -190,6 +190,14 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
 
             });
 
+            TextView emptyView = findViewById(directionIds[0]);
+            emptyView.setText("Brak odjazdów tej linii");
+            emptyView.setGravity(Gravity.CENTER);
+            emptyView.setTypeface(ResourcesCompat.getFont(this, R.font.baloo), Typeface.ITALIC); // Czcionka Baloo i pochyłość
+            emptyView.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark)); // Kolor czerwony
+            emptyView.setTextSize(16); // Opcjonalnie dostosuj rozmiar tekstu
+
+
         } else {
             DeparturesResponse.Departure departure = departures.get(0);
             String direction = "";
@@ -295,15 +303,6 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
 
         }
 
-
-        if (departures.isEmpty()) {
-            TextView emptyView = findViewById(directionIds[0]);
-            emptyView.setText("Brak odjazdów tej linii");
-            emptyView.setGravity(Gravity.CENTER);
-            emptyView.setTypeface(ResourcesCompat.getFont(this, R.font.baloo), Typeface.ITALIC); // Czcionka Baloo i pochyłość
-            emptyView.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark)); // Kolor czerwony
-            emptyView.setTextSize(16); // Opcjonalnie dostosuj rozmiar tekstu
-        }
     }
 
     @Override

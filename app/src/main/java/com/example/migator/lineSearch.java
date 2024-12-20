@@ -172,6 +172,7 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
                 videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_5));
                 videoView.setVideoURI(videoUri.get());
                 videoView.start();
+                textView.setText("");
             }
         });
 

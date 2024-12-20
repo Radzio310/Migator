@@ -12,7 +12,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -32,6 +34,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class busStopSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -120,6 +124,40 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         } else {
             Toast.makeText(this, "Błąd podczas ładowania danych przystanków", Toast.LENGTH_SHORT).show();
         }
+
+        /*-----URUCHAMIANIE WIDEO-----*/
+        AtomicInteger flaga = new AtomicInteger(1);
+
+        VideoView videoView = findViewById(R.id.videoView3);
+        TextView textView = findViewById(R.id.textView7);
+        AtomicReference<Uri> videoUri = new AtomicReference<>(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.wpisz_nazwe_przystanku));
+        textView.setText("Wpisz nazwę przystanku, następnie naciśnij 'Wyszukaj'");
+        videoView.setVideoURI(videoUri.get());
+        videoView.start();
+
+        videoView.setOnCompletionListener(mp -> {
+            if (flaga.get() == 1) {
+                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.nacisnij_nawiguj));
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+                textView.setText("Jeśli chcesz dotrzeć na przystanek, naciśnij przycisk 'Nawiguj'");
+                flaga.getAndIncrement();
+            } else if (flaga.get() == 2){
+                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.aby_wrocic_nacisnij_powrot));
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+                textView.setText("Aby wrócić na stronę główną, naciśnij przycisk 'Powrót'");
+                flaga.getAndIncrement();
+            } else if (flaga.get() == 3){
+                videoUri.set(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.stand_by_3));
+                videoView.setVideoURI(videoUri.get());
+                videoView.start();
+                textView.setText("");
+            }
+        });
+
+
+
 
         // Obsługa klawisza Enter w polu "nazwa przystanku"
         busStopView.setOnEditorActionListener((v, actionId, event) -> {

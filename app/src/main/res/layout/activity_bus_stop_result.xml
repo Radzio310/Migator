@@ -26,23 +26,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/menu"
-            app:titleTextColor="@color/main_3"
-            app:title="@string/searchBusStop" />
+            app:title="@string/searchBusStop"
+            app:titleTextColor="@color/main_3" />
 
         <!-- Górna sekcja z Avatarem -->
-        <ImageView
-            android:id="@+id/avatarMichal"
-            android:layout_width="300dp"
+        <VideoView
+            android:id="@+id/videoView6"
+            android:layout_width="295dp"
             android:layout_height="300dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/avatarDescription"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:layout_marginStart="62dp"
+            android:layout_marginTop="72dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/awatarmichal1" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Nazwa przystanku -->
 
@@ -50,13 +45,13 @@
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
+            android:layout_marginTop="374dp"
             android:gravity="center"
             android:text="@string/signingTextPlaceholder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/avatarMichal" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/currentBusStopName"
@@ -90,8 +85,8 @@
             android:id="@+id/resultsHeaderLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/resultsHeader">
 
@@ -138,10 +133,10 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="0dp"
-            app:layout_constraintTop_toBottomOf="@id/resultsHeaderLine"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/resultsHeaderLine">
 
             <LinearLayout
                 android:id="@+id/resultsContainer"
@@ -200,14 +195,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:visibility="gone"
+            app:headerLayout="@layout/header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/main_menu" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- NavigationView dla menu bocznego -->
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/header"
-        app:menu="@menu/main_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>
