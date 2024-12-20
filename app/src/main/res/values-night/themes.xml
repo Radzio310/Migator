@@ -1,7 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Migator" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.Migator" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Kolory dla ciemnego motywu -->
+        <item name="colorPrimary">#1A237E</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#3949AB</item>
+        <item name="colorSecondary">#f5ebe0</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#B71C1C</item>
+        <item name="colorSurface">#303030</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+        <!-- <item name="colorBackground">#303030</item> -->
+        <item name="colorOnBackground">#2a9d8f</item>
+        <item name="colorControlNormal">#d5bdaf</item>
+        <item name="colorControlHighlight">#caf0f8</item>
     </style>
+
+    <style name="Theme.Migator" parent="Base.Theme.Migator" />
 </resources>

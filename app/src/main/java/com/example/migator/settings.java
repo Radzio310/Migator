@@ -18,6 +18,7 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -66,6 +67,14 @@ public class settings extends AppCompatActivity implements NavigationView.OnNavi
         // Załaduj zapisane dane
         loadSavedPreferences();
 
+        // Ładowanie preferencji
+        SharedPreferences sharedPreferences = getSharedPreferences("SettingsPrefs", MODE_PRIVATE);
+        boolean initialDarkMode = sharedPreferences.getBoolean("darkMode", false); // Śledzenie pierwotnego stanu
+        setAppTheme(initialDarkMode);
+
+        Switch themeSwitch = findViewById(R.id.switchTheme);
+        themeSwitch.setChecked(initialDarkMode);
+
         /*-----URUCHAMIANIE WIDEO-----*/
         AtomicInteger flaga = new AtomicInteger(1); // flaga do wybierania filmu do odpalenia
 
@@ -105,9 +114,7 @@ public class settings extends AppCompatActivity implements NavigationView.OnNavi
         SharedPreferences sharedPreferences = getSharedPreferences("SettingsPrefs", MODE_PRIVATE);
 
         // Załaduj stan Switch
-        Switch switch1 = findViewById(R.id.switch1);
-        Switch switch2 = findViewById(R.id.switch2);
-        switch1.setChecked(sharedPreferences.getBoolean("switch1", false)); // default: false
+        Switch switch2 = findViewById(R.id.switchTheme);
         switch2.setChecked(sharedPreferences.getBoolean("switch2", false)); // default: false
 
         // Załaduj tekst z EditText
@@ -119,15 +126,16 @@ public class settings extends AppCompatActivity implements NavigationView.OnNavi
 
 
     public void saveChanges(View view) {
-        // Uzyskaj dostęp do SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("SettingsPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        // Zapisz stan Switch (true/false)
-        Switch switch1 = findViewById(R.id.switch1);
-        Switch switch2 = findViewById(R.id.switch2);
-        editor.putBoolean("switch1", switch1.isChecked());
-        editor.putBoolean("switch2", switch2.isChecked());
+        // Pobierz aktualny stan przełącznika
+        Switch themeSwitch = findViewById(R.id.switchTheme);
+        boolean newDarkMode = themeSwitch.isChecked();
+        boolean initialDarkMode = sharedPreferences.getBoolean("darkMode", false);
+
+        // Zapisz stan przełączników
+        editor.putBoolean("darkMode", newDarkMode);
 
         // Zapisz tekst z EditText
         EditText editText2 = findViewById(R.id.editTextText2);
@@ -138,8 +146,19 @@ public class settings extends AppCompatActivity implements NavigationView.OnNavi
         // Zapisz zmiany
         editor.apply();
 
-        // Można dodać komunikat o zapisaniu zmian
-        Toast.makeText(this, "Zmiany zostały zapisane", Toast.LENGTH_SHORT).show();
+        // Jeśli stan trybu ciemnego się zmienił, zrestartuj aktywność
+        if (initialDarkMode != newDarkMode) {
+            setAppTheme(newDarkMode); // Użyj newDarkMode zamiast isChecked
+
+            // Zapisz stan motywu
+            editor = sharedPreferences.edit();
+            editor.putBoolean("darkMode", newDarkMode); // Użyj newDarkMode zamiast isChecked
+            editor.apply();
+            restartActivity();
+        } else {
+            Toast.makeText(this, "Zmiany zostały zapisane", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -181,4 +200,19 @@ public class settings extends AppCompatActivity implements NavigationView.OnNavi
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
+    private void setAppTheme(boolean isDarkMode) {
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    private void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
 }

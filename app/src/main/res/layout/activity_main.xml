@@ -15,7 +15,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="?attr/colorSurface">
 
         <!-- Avatar Image -->
 
@@ -42,8 +42,8 @@
             android:gravity="center_horizontal"
             android:text="@string/signingTextPlaceholder"
             android:textAlignment="center"
+            android:textColor="?attr/colorSecondary"
             android:textSize="20sp"
-            android:textColor="@color/main_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.578"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/main"
+            android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,12 +77,10 @@
             android:paddingVertical="8dp"
             android:text="@string/searchBusStop"
             android:textColor="@color/main_3"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintEnd_toStartOf="@+id/main_busLine"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <Button
             android:id="@+id/main_busLine"
@@ -95,23 +93,26 @@
             android:paddingVertical="8dp"
             android:text="@string/searchLine"
             android:textColor="@color/main_3"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/main_busStop"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-        <ImageView
-            android:id="@+id/imageView2"
+        <Button
+            android:id="@+id/button"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_marginBottom="-5dp"
-            android:foregroundGravity="center_vertical|center_horizontal"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:drawableLeft="@drawable/map_white"
+            android:onClick="GoTo_Map"
+            android:text="@string/map"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="?attr/colorOnBackground"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/migator_logo" />
+            app:layout_constraintTop_toBottomOf="@+id/main_busLine" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

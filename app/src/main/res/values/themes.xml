@@ -1,8 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Migator" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.Migator" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Kolory dla jasnego motywu -->
+        <item name="colorPrimary">#023e8a</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#DEEFFF</item>
+        <item name="colorSecondary">#73020c</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#bde0fe</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="colorOnBackground">#2a9d8f</item>
+        <item name="colorControlNormal">#999999</item>
+        <item name="colorControlHighlight">#0d1b2a</item>
     </style>
 
     <style name="Theme.Migator" parent="Base.Theme.Migator" />

@@ -136,12 +136,12 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
         while (iterator.hasNext()) {
             DeparturesResponse.Departure departure = iterator.next();
             if (!departure.getLineNumber().equals(lineNumber)) {
-                Log.d("test", "usunieto." + departure.getLineNumber()+" "+lineNumber );
+                Log.d("test", "usunieto." + departure.getLineNumber() + " " + lineNumber);
                 iterator.remove();
             }
         }
         // Set the current bus stop name
-        ((TextView) findViewById(R.id.currentBusLine)).setText(name);
+        ((TextView) findViewById(R.id.currentBusLine)).setText("Linia " + lineNumber + " - " + name);
 
         // Arrays for the time, line, and direction IDs
         int[] timeIds = {R.id.timeRemaining1, R.id.timeRemaining2, R.id.timeRemaining3};
@@ -159,7 +159,7 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
             ((TextView) findViewById(timeIds[i])).setText(timeText);
 
             // Set the direction text
-            ((TextView) findViewById(directionIds[i])).setText("Kierunek: " + departure.getDirection());
+            ((TextView) findViewById(directionIds[i])).setText(departure.getDirection());
         }
 
         /*Składanie animacji*/
@@ -201,7 +201,7 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
         } else {
             DeparturesResponse.Departure departure = departures.get(0);
             String direction = "";
-            direction = (String) ((TextView) findViewById(R.id.direction1)).getText();
+            direction = "Kierunek: " + (String) ((TextView) findViewById(R.id.direction1)).getText();
             String time = departure.getTime();
             Log.d("Info", direction);
 
@@ -406,6 +406,9 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
         }
     }
 
+    public void goBack(View v) {
+        Intent intent = new Intent(this, lineSearch.class);
+        startActivity(intent);
+    }
 
 }
-

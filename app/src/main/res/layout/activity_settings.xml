@@ -13,13 +13,13 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="?attr/colorSurface">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/main"
+            android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,32 +42,24 @@
             app:layout_constraintVertical_bias="0.5" />
 
         <Switch
-            android:id="@+id/switch2"
-            android:layout_width="329dp"
+            android:id="@+id/switchTheme"
+            android:layout_width="300dp"
             android:layout_height="60dp"
-            android:text="Opcja1"
+            android:text="Tryb ciemny"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="329dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:text="Opcja2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switch2" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="196dp"
-            android:layout_height="48dp"
+            android:layout_height="50dp"
             android:gravity="start|center_vertical"
-            android:text="Opcja4"
+            android:text="Wiek użytkownika:"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/editTextText3"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,24 +67,24 @@
 
         <EditText
             android:id="@+id/editTextText2"
-            android:layout_width="132dp"
-            android:layout_height="48dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:ems="10"
             android:gravity="center"
-            android:hint="Opcja3:value"
+            android:hint="Imię"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/switch1" />
+            app:layout_constraintTop_toBottomOf="@+id/switchTheme" />
 
         <EditText
             android:id="@+id/editTextText3"
-            android:layout_width="132dp"
-            android:layout_height="48dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:ems="10"
             android:gravity="center"
-            android:hint="Opcja4:value"
+            android:hint="Wiek"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -102,25 +94,26 @@
         <TextView
             android:id="@+id/textView4"
             android:layout_width="196dp"
-            android:layout_height="48dp"
+            android:layout_height="50dp"
             android:gravity="start|center_vertical"
-            android:text="Opcja3"
+            android:text="Imię użytkownika:"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/editTextText2"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switch1" />
+            app:layout_constraintTop_toBottomOf="@+id/switchTheme" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="75dp"
+            android:layout_marginBottom="5dp"
             android:fontFamily="@font/baloo"
             android:gravity="center_horizontal"
             android:text="@string/signingTextPlaceholder"
             android:textAlignment="center"
+            android:textColor="?attr/colorSecondary"
             android:textSize="18sp"
-            android:textColor="@color/main_2"
-            android:layout_marginBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -140,13 +133,14 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/editTextText3"
             app:layout_constraintVertical_bias="0.5" />
 
         <VideoView
             android:id="@+id/videoView2"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:layout_marginTop="-5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 

@@ -1,26 +1,27 @@
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".busStopResult"
     android:fitsSystemWindows="true"
-    tools:openDrawer="end">
+    tools:context=".busStopResult"
+    tools:openDrawer="start">
 
     <!-- Główna zawartość ekranu -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/main_3">
+        android:background="?attr/colorSurface">
 
         <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/main"
+            android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,29 +30,29 @@
             app:title="@string/searchBusStop"
             app:titleTextColor="@color/main_3" />
 
-        <!-- Górna sekcja z Avatarem -->
+        <!-- VideoView -->
         <VideoView
             android:id="@+id/videoView6"
-            android:layout_width="295dp"
+            android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginStart="62dp"
-            android:layout_marginTop="72dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <!-- Nazwa przystanku -->
-
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="374dp"
-            android:gravity="center"
+            android:layout_height="75dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/baloo"
+            android:gravity="center_horizontal"
             android:text="@string/signingTextPlaceholder"
+            android:textAlignment="center"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/videoView6" />
 
         <TextView
             android:id="@+id/currentBusStopName"
@@ -62,25 +63,26 @@
             android:hint="@string/busStopPlaceholder"
             android:padding="5dp"
             android:textAlignment="center"
-            android:textColor="@color/main"
+            android:textColor="?attr/colorControlNormal"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            app:layout_constraintTop_toBottomOf="@id/textView6" />
 
-        <!-- Nagłówek "Nadchodzące odjazdy" -->
+        <!-- Nagłówek -->
         <TextView
             android:id="@+id/resultsHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="8dp"
             android:text="@string/busStopResultsLabel"
-            android:textColor="@color/main_2"
+            android:textColor="?attr/colorSecondary"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currentBusStopName" />
+            app:layout_constraintTop_toBottomOf="@id/currentBusStopName" />
 
+        <!-- Linia wyników -->
         <LinearLayout
             android:id="@+id/resultsHeaderLine"
             android:layout_width="match_parent"
@@ -98,7 +100,7 @@
                 android:fontFamily="@font/baloo"
                 android:text="@string/departureHeader"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorSecondary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -110,7 +112,7 @@
                 android:fontFamily="@font/baloo"
                 android:text="@string/lineHeader"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorSecondary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -122,64 +124,27 @@
                 android:fontFamily="@font/baloo"
                 android:text="@string/directionHeader"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
+                android:textColor="?attr/colorSecondary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
         <!-- ScrollView dla wyników -->
         <ScrollView
             android:id="@+id/resultsScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/resultsHeaderLine">
+            app:layout_constraintTop_toBottomOf="@id/resultsHeaderLine"
+            app:layout_constraintBottom_toTopOf="@id/goBackButton"
+            app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
                 android:id="@+id/resultsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <!-- Przykładowy pojedynczy wynik -->
-                <LinearLayout
-                    android:id="@+id/result1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/timeRemaining1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/lineNumber1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/direction1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <!-- Kolejne wyniki będą dodawane tutaj dynamicznie -->
-
+                <!-- Wyniki dynamiczne -->
             </LinearLayout>
         </ScrollView>
 
@@ -187,26 +152,22 @@
         <Button
             android:id="@+id/goBackButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
             android:onClick="GoTo_busStopSearch"
             android:text="@string/GoBackButton"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:visibility="gone"
-            app:headerLayout="@layout/header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/main_menu" />
-
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- NavigationView dla menu bocznego -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/main_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

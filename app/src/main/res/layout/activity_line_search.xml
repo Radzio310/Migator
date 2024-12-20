@@ -13,13 +13,13 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@color/main">
+        android:backgroundTint="?attr/colorSurface">
 
         <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/main"
+        android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/main_3"
+        android:background="?attr/colorSurface"
         android:orientation="vertical"
         android:padding="0dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -55,7 +55,7 @@
                 android:text="@string/signingTextPlaceholder"
                 android:textAlignment="center"
                 android:textSize="18sp"
-                android:textColor="@color/main_2"
+                android:textColor="?attr/colorSecondary"
                 android:layout_marginBottom="5dp"/>
 
         <TextView
@@ -67,7 +67,7 @@
             android:padding="5dp"
             android:text="@string/busLineSearchDescription"
             android:textAlignment="center"
-            android:textColor="@color/main"
+            android:textColor="?attr/colorControlNormal"
             android:textSize="20sp" />
 
         <!-- Pole tekstowe dla nazwy przystanku -->
@@ -81,7 +81,7 @@
                 android:dropDownHeight="wrap_content"
                 android:hint="@string/busLinePlaceholder"
                 android:inputType="number"
-                android:textColor="@color/main"/>
+                android:textColor="?attr/colorControlHighlight"/>
 
             <AutoCompleteTextView
                 android:id="@+id/lineBusStop"
@@ -90,7 +90,7 @@
                 android:layout_gravity="center_horizontal"
                 android:hint="@string/busLineStopPlaceholder"
                 android:inputType="text"
-                android:textColor="@color/main" />
+                android:textColor="?attr/colorControlHighlight" />
 
 
             <LinearLayout
