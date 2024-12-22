@@ -154,8 +154,8 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
 
             // Set the time text
             String timeText = departure.getTime().contains(":") ?
-                    "Odjazd " + departure.getTime() :
-                    "Odjazd za " + departure.getTime() + "min";
+                    departure.getTime() :
+                    "za " + departure.getTime() + "min";
             ((TextView) findViewById(timeIds[i])).setText(timeText);
 
             // Set the direction text
