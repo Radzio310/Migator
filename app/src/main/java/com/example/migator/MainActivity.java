@@ -38,15 +38,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    private static boolean dataFetched = false; // Flaga sesji
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // załaduj stops.json i lines.json
-        fetchStops();
-        fetchLines();
+        // Sprawdź, czy dane zostały już pobrane w tej sesji
+        if (!dataFetched) {
+            fetchStops();  // Pobierz stops.json
+            fetchLines();  // Pobierz lines.json
+            dataFetched = true; // Ustaw flagę na true
+        }
 
         // Załaduj preferencje o trybie (ciemnym lub jasnym)
         SharedPreferences sharedPreferences = getSharedPreferences("SettingsPrefs", MODE_PRIVATE);
