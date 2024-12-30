@@ -20,6 +20,10 @@ public class ApiClient {
     }
 
     public interface ApiService {
+
+        @GET("stops")
+        Call<StopsResponse> getStops();
+
         @GET("displays/{stopNumber}")
         Call<DeparturesResponse> getDepartures(@Path("stopNumber") String stopNumber);
     }

@@ -1,5 +1,6 @@
 package com.example.migator;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -22,8 +23,15 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.w3c.dom.Text;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -35,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // załaduj stops.json
+        fetchStops();
 
         // Załaduj preferencje o trybie (ciemnym lub jasnym)
         SharedPreferences sharedPreferences = getSharedPreferences("SettingsPrefs", MODE_PRIVATE);
@@ -162,6 +173,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+    // dynamiczne pobieranie stops.json
+    private void fetchStops() {
+        ApiClient.ApiService apiService = ApiClient.getApiService();
+
+        Call<StopsResponse> call = apiService.getStops();
+        call.enqueue(new Callback<StopsResponse>() {
+            @Override
+            public void onResponse(Call<StopsResponse> call, Response<StopsResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Stop> stops = response.body().getData();
+                    saveStopsToFile(stops);
+                } else {
+                    System.out.println("Błąd w odpowiedzi: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StopsResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void saveStopsToFile(List<Stop> stops) {
+        String json = new com.google.gson.Gson().toJson(stops);
+
+        try (FileOutputStream fos = openFileOutput("stops.json", Context.MODE_PRIVATE)) {
+            fos.write(json.getBytes());
+            System.out.println("Dane zapisane w pliku: " + "stops.json");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

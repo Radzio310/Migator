@@ -3,8 +3,13 @@ package com.example.migator;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import android.util.Pair;
 
@@ -17,17 +22,28 @@ public class findStopUtils {
 
     // load JSON
     public static List<Stop> loadStops(Context context) {
+        String fileName = "stops.json";
+
         try {
-            InputStream inputStream = context.getResources().openRawResource(R.raw.stops);
-            InputStreamReader reader = new InputStreamReader(inputStream);
+            // Otwieranie pliku z pamięci wewnętrznej
+            FileInputStream fis = context.openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader reader = new BufferedReader(isr);
+
+            // Wczytywanie zawartości pliku
+            StringBuilder jsonBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonBuilder.append(line);
+            }
 
             Gson gson = new Gson();
-            StopsResponse response = gson.fromJson(reader, StopsResponse.class);
+            List<Stop> stops = gson.fromJson(jsonBuilder.toString(), new TypeToken<List<Stop>>() {}.getType());
 
-            return response.getData();
+            return stops;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>(); // Zwraca pustą listę w przypadku błędu
         }
     }
 
