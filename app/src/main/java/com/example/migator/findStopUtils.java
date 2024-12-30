@@ -48,14 +48,24 @@ public class findStopUtils {
     }
 
     public static List<Line> loadLines(Context context) {
+        String fileName = "lines.json";
         try {
-            InputStream inputStream = context.getResources().openRawResource(R.raw.lines);
-            InputStreamReader reader = new InputStreamReader(inputStream);
+            // Otwieranie pliku z pamięci wewnętrznej
+            FileInputStream fis = context.openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader reader = new BufferedReader(isr);
+
+            // Wczytywanie zawartości pliku
+            StringBuilder jsonBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonBuilder.append(line);
+            }
 
             Gson gson = new Gson();
-            LinesResponse response = gson.fromJson(reader, LinesResponse.class);
+            List<Line> lines = gson.fromJson(jsonBuilder.toString(), new TypeToken<List<Line>>() {}.getType());
+            return lines;
 
-            return response.getData();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

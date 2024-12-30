@@ -50,17 +50,14 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
     public static class JsonUtils {
         public static List<String> loadLineNumbersFromJson(Context context) {
             try {
-                // Otwórz plik JSON z folderu raw
-                InputStream inputStream = context.getResources().openRawResource(R.raw.lines);
-                InputStreamReader reader = new InputStreamReader(inputStream);
-
-                // Używamy Gson do sparsowania pliku JSON
-                Gson gson = new Gson();
-                Type type = new TypeToken<LinesResponse>(){}.getType();
-                LinesResponse response = gson.fromJson(reader, type);
+                // Użycie metody loadLines do wczytania danych z pliku w pamięci wewnętrznej
+                List<Line> lines = findStopUtils.loadLines(context);
+                if (lines == null) {
+                    Log.e("JsonUtils", "Nie udało się wczytać danych");
+                    return null; // Jeśli nie udało się wczytać danych, zwróć null
+                }
 
                 // Zwróć listę numerów linii
-                List<Line> lines = response.getData();
                 List<String> lineNumbers = new ArrayList<>();
                 for (Line line : lines) {
                     lineNumbers.add(line.getNumber());
@@ -68,7 +65,7 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
 
                 return lineNumbers;
             } catch (Exception e) {
-                Log.e("JsonUtils", "Error loading lines from JSON", e);
+                Log.e("JsonUtils", "Error loading line numbers from JSON", e);
                 return null;
             }
         }

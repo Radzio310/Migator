@@ -44,8 +44,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // załaduj stops.json
+        // załaduj stops.json i lines.json
         fetchStops();
+        fetchLines();
 
         // Załaduj preferencje o trybie (ciemnym lub jasnym)
         SharedPreferences sharedPreferences = getSharedPreferences("SettingsPrefs", MODE_PRIVATE);
@@ -204,6 +205,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try (FileOutputStream fos = openFileOutput("stops.json", Context.MODE_PRIVATE)) {
             fos.write(json.getBytes());
             System.out.println("Dane zapisane w pliku: " + "stops.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fetchLines() {
+        ApiClient.ApiService apiService = ApiClient.getApiService();
+
+        Call<LinesResponse> call = apiService.getLines();
+        call.enqueue(new Callback<LinesResponse>() {
+            @Override
+            public void onResponse(Call<LinesResponse> call, Response<LinesResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Line> lines = response.body().getData();
+                    saveLinesToFile(lines);
+                } else {
+                    System.out.println("Błąd w odpowiedzi: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LinesResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void saveLinesToFile(List<Line> lines) {
+        String json = new com.google.gson.Gson().toJson(lines);
+
+        try (FileOutputStream fos = openFileOutput("lines.json", Context.MODE_PRIVATE)) {
+            fos.write(json.getBytes());
+            System.out.println("Dane zapisane w pliku: " + "lines.json");
         } catch (IOException e) {
             e.printStackTrace();
         }

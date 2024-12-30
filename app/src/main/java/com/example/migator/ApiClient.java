@@ -24,6 +24,9 @@ public class ApiClient {
         @GET("stops")
         Call<StopsResponse> getStops();
 
+        @GET("lines")
+        Call<LinesResponse> getLines();
+
         @GET("displays/{stopNumber}")
         Call<DeparturesResponse> getDepartures(@Path("stopNumber") String stopNumber);
     }
