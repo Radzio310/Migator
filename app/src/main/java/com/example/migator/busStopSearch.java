@@ -37,6 +37,8 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.example.migator.findStopUtils;
+
 public class busStopSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
@@ -46,18 +48,12 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
     public static class JsonUtils {
 
         public static List<String> loadStopNamesFromJson(Context context) {
-            try {
-                // Otwórz plik JSON z folderu raw
-                InputStream inputStream = context.getResources().openRawResource(R.raw.stops); // Załaduj plik JSON
-                InputStreamReader reader = new InputStreamReader(inputStream);
 
-                // Używamy Gson do sparsowania pliku JSON
-                Gson gson = new Gson();
-                Type type = new TypeToken<StopsResponse>(){}.getType(); // Dopasuj do swojej struktury JSON
-                StopsResponse response = gson.fromJson(reader, type);
+            try {
+                List<Stop> stops = findStopUtils.loadStops(context);
 
                 // Zwróć listę nazw przystanków
-                List<Stop> stops = response.getData();
+
                 List<String> stopNames = new ArrayList<>();
                 for (Stop stop : stops) {
                     stopNames.add(stop.getName());

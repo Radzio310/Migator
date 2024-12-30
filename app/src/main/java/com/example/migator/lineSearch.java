@@ -75,17 +75,10 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
 
         public static List<String> loadStopNamesFromJson(Context context) {
             try {
-                // Otwórz plik JSON z folderu raw
-                InputStream inputStream = context.getResources().openRawResource(R.raw.stops);
-                InputStreamReader reader = new InputStreamReader(inputStream);
-
-                // Używamy Gson do sparsowania pliku JSON
-                Gson gson = new Gson();
-                Type type = new TypeToken<StopsResponse>(){}.getType();
-                StopsResponse response = gson.fromJson(reader, type);
+                List<Stop> stops = findStopUtils.loadStops(context);
 
                 // Zwróć listę nazw przystanków
-                List<Stop> stops = response.getData();
+
                 List<String> stopNames = new ArrayList<>();
                 for (Stop stop : stops) {
                     stopNames.add(stop.getName());

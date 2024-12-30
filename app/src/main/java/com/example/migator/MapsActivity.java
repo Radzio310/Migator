@@ -164,22 +164,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void loadBusStopsFromJSON() {
         try {
-            // Wczytaj plik JSON z katalogu raw
-            InputStream is = getResources().openRawResource(R.raw.stops);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-
-            // Sparsuj JSON do obiektu StopsResponse
-            Gson gson = new Gson();
-            StopsResponse stopsResponse = gson.fromJson(stringBuilder.toString(), StopsResponse.class);
+            // Użycie metody pomocniczej loadStops do wczytania przystanków z pamięci wewnętrznej
+            List<Stop> stops = findStopUtils.loadStops(this);
 
             // Dodaj markery dla każdego przystanku
-            for (Stop stop : stopsResponse.data) {
+            for (Stop stop : stops) {
                 LatLng stopLocation = new LatLng(stop.latitude, stop.longitude);
                 Marker marker = mMap.addMarker(new MarkerOptions()
                         .position(stopLocation)
@@ -187,9 +176,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .snippet("Numer: " + stop.getNumber()));
                 markersList.add(marker);
             }
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Błąd podczas ładowania przystanków z JSON");
         }
     }
 
