@@ -96,6 +96,30 @@ public class findStopUtils {
         return null;
     }
 
+    public static Pair<Double, Double> findGeoInfo(Context context, String inputName) {
+        List<Stop> stops = loadStops(context);
+        if (stops == null) {
+            return null;
+        }
+
+        // 1st search
+        for (Stop stop : stops) {
+            if (stop.getName().equalsIgnoreCase(inputName)) {
+                return new Pair<>(stop.latitude, stop.longitude);
+            }
+        }
+
+        // 2nd search
+        for (Stop stop : stops) {
+            if (stop.getName().toLowerCase().contains(inputName.toLowerCase())) {
+                return new Pair<>(stop.latitude, stop.longitude);
+            }
+        }
+
+        // not found
+        return null;
+    }
+
     public static String findLineInfo(Context context, String inputName) {
         List<Line> lines = loadLines(context);
         if (lines == null) {

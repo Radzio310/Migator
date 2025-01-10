@@ -212,17 +212,18 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
     public void GoTo_Naviagtion(View v) {
         String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
         busStopName = busStopName.trim();
-        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+        Pair<Double, Double> geoInfo = findStopUtils.findGeoInfo(this, busStopName);
 
         if (busStopName.isEmpty()) {
             Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
-        } else if (stopInfo == null) {
+        } else if (geoInfo == null) {
             Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
         } else {
-            String name = stopInfo.first;
+            String latitude = geoInfo.first.toString();
+            String longitude = geoInfo.second.toString();
             // Alternatywne URI (żeby się włączało w trybie pieszym)
             Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" +
-                    Uri.encode("Szczecin, przystanek autobusowy " + name) +
+                    Uri.encode(latitude + ", " + longitude) +
                     "&travelmode=walking");
 
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
