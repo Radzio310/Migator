@@ -197,7 +197,27 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         Intent intent = new Intent(this, busStopResult.class);
 
         String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
-        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+        List<Pair<String, String>> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+
+
+
+        if (busStopName.isEmpty()) {
+            Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
+        } else if (stopInfo == null) {
+            Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
+        } else if (stopInfo.size() >= 2) {
+             GoTo_directionChoice(v);
+        } else {
+            intent.putExtra("BusStopName", busStopName);
+            startActivity(intent);
+        }
+    }
+
+    public void GoTo_directionChoice(View v) {
+        Intent intent = new Intent(this, directionChoice.class);
+
+        String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
+        List<Pair<String, String>> stopInfo = findStopUtils.findStopInfo(this, busStopName);
 
         if (busStopName.isEmpty()) {
             Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();

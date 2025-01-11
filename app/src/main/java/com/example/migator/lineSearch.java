@@ -27,12 +27,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.VideoView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -220,7 +214,7 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
         String lineInfo = findStopUtils.findLineInfo(this, lineNumber);
 
         String busStopName = ((EditText) findViewById(R.id.lineBusStop)).getText().toString();
-        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+        Pair<String, String> stopInfo = findStopUtils.findStopInfoSingle(this, busStopName);
 
         if (lineNumber.isEmpty())
         {

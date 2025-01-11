@@ -1,7 +1,5 @@
 package com.example.migator;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -87,11 +85,19 @@ public class busStopResult extends AppCompatActivity implements NavigationView.O
         navigationView.setCheckedItem(R.id.nav_searchBusStop);
 
         // Get number and name of the bus stop
-        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, getIntent().getStringExtra("BusStopName"));
+        Pair<String, String> stopInfo = findStopUtils.findStopInfoSingle(this, getIntent().getStringExtra("BusStopName"));
+        String stopNumber = getIntent().getStringExtra("stopNumber");
 
         if (stopInfo != null) {
             name = stopInfo.first;
-            number = stopInfo.second;
+            if (stopNumber != null)
+            {
+                number = stopNumber;
+            }
+            else
+            {
+                number = stopInfo.second;
+            }
 
             Log.d("Stop Info", "Stop Name: " + name + ", Stop Number: " + number);
         } else {

@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +71,38 @@ public class findStopUtils {
         }
     }
 
-    public static Pair<String, String> findStopInfo(Context context, String inputName) {
+    public static List<Pair<String, String>> findStopInfo(Context context, String inputName) {
+        List<Stop> stops = loadStops(context);
+        if (stops == null) {
+            return null;
+        }
+
+        List<Pair<String, String>> matchingStops = new ArrayList<>();
+
+        // 1st search: exact match
+        for (Stop stop : stops) {
+            if (stop.getName().equalsIgnoreCase(inputName)) {
+                matchingStops.add(new Pair<>(stop.getName(), stop.getNumber()));
+            }
+        }
+
+        // If exact matches are found, return them
+        if (!matchingStops.isEmpty()) {
+            return matchingStops;
+        }
+
+        // 2nd search: partial match
+        for (Stop stop : stops) {
+            if (stop.getName().toLowerCase().contains(inputName.toLowerCase())) {
+                matchingStops.add(new Pair<>(stop.getName(), stop.getNumber()));
+            }
+        }
+
+        // Return matching stops or null if none found
+        return matchingStops.isEmpty() ? null : matchingStops;
+    }
+
+    public static Pair<String, String> findStopInfoSingle(Context context, String inputName) {
         List<Stop> stops = loadStops(context);
         if (stops == null) {
             return null;
