@@ -11,7 +11,7 @@
 - 🚌 **Wyszukiwanie przystanków**: znajdź najbliższe przystanki i sprawdź rozkład jazdy.
 - 📝 **Informacje o liniach**: szczegółowe dane o trasach i godzinach odjazdów.
 - 🔍 **Interaktywna mapa**: lokalizuj przystanki i linie na mapie z komunikatami wizualnymi.
-- 🔇 **Wsparcie dla osób głuchoniemych**: dostosowanie do języka polskiego migowego (PJM).
+- 🔇 **Wsparcie dla osób głuchych**: dostosowanie do języka polskiego migowego (PJM).
 
 <table>
   <tr>
@@ -92,7 +92,7 @@ Jeśli masz pytania lub sugestie, skontaktuj się z nami poprzez otwarcie [issue
 - 🚌 **Stop Search**: Find nearby stops and check schedules.
 - 📝 **Bus Line Information**: Detailed data about routes and departure times.
 - 🔍 **Interactive Map**: Locate stops and lines on a map with visual messages.
-- 🔇 **Support for the Deaf and Mute**: Tailored content in Polish Sign Language (PJM).
+- 🔇 **Support for the Deaf Individuals**: Tailored content in Polish Sign Language (PJM).
 
 <table>
   <tr>
