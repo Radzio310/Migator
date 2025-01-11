@@ -126,28 +126,47 @@ public class findStopUtils {
         return null;
     }
 
-    public static Pair<Double, Double> findGeoInfo(Context context, String inputName) {
+    public static List<Pair<Double, Double>> findGeoInfo(Context context, String inputName) {
         List<Stop> stops = loadStops(context);
+        List<Pair<Double, Double>> result = new ArrayList<>();
         if (stops == null) {
-            return null;
+            return result; // Zwracamy pustą listę, jeśli nie ma przystanków
         }
 
-        // 1st search
+        // 1st search - dokładne dopasowanie
         for (Stop stop : stops) {
             if (stop.getName().equalsIgnoreCase(inputName)) {
-                return new Pair<>(stop.latitude, stop.longitude);
+                result.add(new Pair<>(stop.latitude, stop.longitude));
             }
         }
 
-        // 2nd search
+        // 2nd search - dopasowanie częściowe
         for (Stop stop : stops) {
-            if (stop.getName().toLowerCase().contains(inputName.toLowerCase())) {
-                return new Pair<>(stop.latitude, stop.longitude);
+            if (stop.getName().toLowerCase().contains(inputName.toLowerCase()) && !result.contains(new Pair<>(stop.latitude, stop.longitude))) {
+                result.add(new Pair<>(stop.latitude, stop.longitude));
             }
         }
 
-        // not found
-        return null;
+        return result; // Zwracamy listę wyników
+    }
+
+    public static Pair<Double, Double> findGeoInfoByNumber(Context context, String number) {
+        List<Stop> stops = loadStops(context);
+        Pair<Double, Double> result = null;
+
+        if (stops == null) {
+            return result;
+        }
+
+        // 1st search - dokładne dopasowanie
+        for (Stop stop : stops) {
+            if (stop.getNumber().equalsIgnoreCase(number)) {
+                result = new Pair<>(stop.latitude, stop.longitude);
+                break;
+            }
+        }
+
+        return result;
     }
 
     public static String findLineInfo(Context context, String inputName) {

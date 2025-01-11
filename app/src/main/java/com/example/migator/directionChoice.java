@@ -1,6 +1,7 @@
 package com.example.migator;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -72,9 +73,13 @@ public class directionChoice extends AppCompatActivity {
                                 stopButton.setText("Kierunek: " + String.join(", ", uniqueDirections));
                                 stopButton.setPadding(16, 16, 16, 16);
 
-                                // Obsługa kliknięcia przycisku - przejście do nowej aktywności z numerem przystanku
-                                stopButton.setOnClickListener(v -> GoTo_busStopResult(v, stopName, number));
-
+                                // Obsługa kliknięcia przycisku - przejście do results lub navigation
+                                if (getIntent().getBooleanExtra("navigationFlag", false)) {
+                                    stopButton.setOnClickListener(v -> GoTo_Naviagtion(v, number));
+                                }
+                                else {
+                                    stopButton.setOnClickListener(v -> GoTo_busStopResult(v, stopName, number));
+                                }
                                 // Dodaj przycisk do kontenera
                                 resultsContainer.addView(stopButton);
                             });
@@ -103,5 +108,19 @@ public class directionChoice extends AppCompatActivity {
         intent.putExtra("stopNumber", stopNumber);
         startActivity(intent);
 
+    }
+
+    public void GoTo_Naviagtion(View v, String number) {
+        Pair<Double, Double> geoInfo = findStopUtils.findGeoInfoByNumber(this, number);
+        String latitude = geoInfo.first.toString();
+        String longitude = geoInfo.second.toString();
+        // Alternatywne URI (żeby się włączało w trybie pieszym)
+        Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" +
+                Uri.encode(latitude + ", " + longitude) +
+                "&travelmode=walking");
+
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 }

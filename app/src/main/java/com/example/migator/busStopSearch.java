@@ -2,6 +2,8 @@ package com.example.migator;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -232,16 +234,27 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
     public void GoTo_Naviagtion(View v) {
         String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
         busStopName = busStopName.trim();
-        Pair<Double, Double> geoInfo = findStopUtils.findGeoInfo(this, busStopName);
+
+        // Znajdujemy informacje o przystankach
+        List<Pair<Double, Double>> geoInfoList = findStopUtils.findGeoInfo(this, busStopName);
 
         if (busStopName.isEmpty()) {
             Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
-        } else if (geoInfo == null) {
+            return;
+        }
+
+        if (geoInfoList.isEmpty()) {
             Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
-        } else {
+            return;
+        }
+
+        // Jeśli tylko 1 przystanek, od razu przekierowujemy do nawigacji
+        if (geoInfoList.size() == 1) {
+            Pair<Double, Double> geoInfo = geoInfoList.get(0);
             String latitude = geoInfo.first.toString();
             String longitude = geoInfo.second.toString();
-            // Alternatywne URI (żeby się włączało w trybie pieszym)
+
+            // Budowanie URL do Google Maps w trybie pieszym
             Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" +
                     Uri.encode(latitude + ", " + longitude) +
                     "&travelmode=walking");
@@ -249,6 +262,12 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
+        } else {
+            // Jeśli więcej niż jeden przystanek, przekierowujemy użytkownika do wyboru kierunku
+            Intent intent = new Intent(this, directionChoice.class);
+            intent.putExtra("BusStopName", busStopName);
+            intent.putExtra("navigationFlag", true);  // Flaga informująca o nawigacji
+            startActivity(intent);
         }
     }
 
