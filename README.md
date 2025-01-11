@@ -2,7 +2,7 @@
 
 ![Logo Migator](app/src/main/res/drawable/migator_logo.png)
 
-**Migator** to nowoczesna aplikacja mobilna zaprojektowana z myślą o osobach głuchoniemych, która czyni komunikację miejską bardziej dostępną i intuicyjną. Dzięki obsłudze języka polskiego i polskiego języka migowego umożliwia szybkie wyszukiwanie przystanków, autobusów oraz przeglądanie map z interaktywnymi komunikatami.
+**Migator** to nowoczesna aplikacja mobilna zaprojektowana z myślą o osobach głuchych, która czyni komunikację miejską bardziej dostępną i intuicyjną. Dzięki obsłudze języka polskiego i polskiego języka migowego umożliwia szybkie wyszukiwanie przystanków, autobusów oraz przeglądanie map z interaktywnymi komunikatami.
 
 ---
 
@@ -83,7 +83,7 @@ Jeśli masz pytania lub sugestie, skontaktuj się z nami poprzez otwarcie [issue
 
 ![Migator Logo](app/src/main/res/drawable/migator_logo.png)
 
-**Migator** is a modern mobile app designed to make public transportation accessible and intuitive for deaf and mute individuals. Supporting Polish and Polish Sign Language, it enables quick stop searches, bus line information, and interactive map viewing with tailored messages.
+**Migator** is a modern mobile app designed to make public transportation accessible and intuitive for deaf individuals. Supporting Polish and Polish Sign Language, it enables quick stop searches, bus line information, and interactive map viewing with tailored messages.
 
 ---
 
