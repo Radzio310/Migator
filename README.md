@@ -13,9 +13,13 @@
 - 🔍 **Interaktywna mapa**: lokalizuj przystanki i linie na mapie z komunikatami wizualnymi.
 - 🔇 **Wsparcie dla osób głuchoniemych**: dostosowanie do języka polskiego migowego (PJM).
 
-![Demo Screenshot](./assets/demo1.png)
-![Demo Screenshot](./assets/demo2.png)
-![Demo Screenshot](./assets/demo3.png)
+<table>
+  <tr>
+    <td><img src="./assets/demo1.png" alt="Screenshot 1" width="250"/></td>
+    <td><img src="./assets/demo2.png" alt="Screenshot 2" width="250"/></td>
+    <td><img src="./assets/demo3.png" alt="Screenshot 3" width="250"/></td>
+  </tr>
+</table>
 
 ---
 
@@ -90,9 +94,13 @@ Jeśli masz pytania lub sugestie, skontaktuj się z nami poprzez otwarcie [issue
 - 🔍 **Interactive Map**: Locate stops and lines on a map with visual messages.
 - 🔇 **Support for the Deaf and Mute**: Tailored content in Polish Sign Language (PJM).
 
-![Demo Screenshot](./assets/demo1.png)
-![Demo Screenshot](./assets/demo2.png)
-![Demo Screenshot](./assets/demo3.png)
+<table>
+  <tr>
+    <td><img src="./assets/demo1.png" alt="Screenshot 1" width="250"/></td>
+    <td><img src="./assets/demo2.png" alt="Screenshot 2" width="250"/></td>
+    <td><img src="./assets/demo3.png" alt="Screenshot 3" width="250"/></td>
+  </tr>
+</table>
 
 ---
 
