@@ -53,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_marginBottom="5dp"
+                android:layout_marginHorizontal="10dp"
                 android:fontFamily="@font/baloo"
                 android:gravity="center_horizontal"
                 android:text="@string/signingTextPlaceholder"

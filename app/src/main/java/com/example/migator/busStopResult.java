@@ -372,6 +372,10 @@ public class busStopResult extends AppCompatActivity implements NavigationView.O
         startActivity(intent);
     }
 
+    public void go_back(View v) {
+        super.onBackPressed();
+    }
+
     /* FUNKCJE POMOCNICZE DO GENEROWANIA ANIMACJI*/
 
     private String removeDiacritics(String input) {

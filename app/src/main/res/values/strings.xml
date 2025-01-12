@@ -27,6 +27,7 @@
     <string name="home">Strona główna</string>
     <string name="searchLine">Wyszukaj linię</string>
     <string name="searchBusStop">Wyszukaj przystanek</string>
+    <string name="searchBusStopDirection">Wybierz kierunek</string>
     <string name="map">Mapa przystanków</string>
     <string name="busLineStopPlaceholder">Nazwa przystanku</string>
 
