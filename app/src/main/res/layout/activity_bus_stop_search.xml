@@ -70,7 +70,7 @@
                 android:padding="5dp"
                 android:text="@string/busStopSearchDescription"
                 android:textAlignment="center"
-                android:textColor="@color/main"
+                android:textColor="?attr/colorControlNormal"
                 android:textSize="20sp" />
 
             <!-- Pole tekstowe dla nazwy przystanku -->
