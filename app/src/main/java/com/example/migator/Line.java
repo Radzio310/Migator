@@ -14,6 +14,9 @@ public class Line {
     public String getNumber() {
         return number;
     }
+    public int getId() {
+        return id;
+    }
 
 
 }

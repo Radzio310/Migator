@@ -22,24 +22,33 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.VideoView;
 
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class lineSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+
+    private List<Map<String, Object>> stops2;
+    private List<Map<String, Object>> lines2;
 
     public static class JsonUtils {
         public static List<String> loadLineNumbersFromJson(Context context) {
@@ -109,30 +118,16 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_searchLine);
 
-        // Inicjalizacja AutoCompleteTextView dla numeru linii
+        // Wczytaj stops_2.json i lines_2.json
+        stops2 = loadFromFile("stops_2.json");
+        lines2 = loadFromFile("lines_2.json");
+
+        // Inicjalizacja pól AutoCompleteTextView
         AutoCompleteTextView lineNumberView = findViewById(R.id.lineNumber);
         AutoCompleteTextView busStopView = findViewById(R.id.lineBusStop);
 
-        // Ładowanie danych do pól AutoComplete
-        List<String> lineNumbers = JsonUtils.loadLineNumbersFromJson(this);
-        if (lineNumbers != null) {
-            Set<String> uniqueLineNumbers = new HashSet<>(lineNumbers);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueLineNumbers));
-            lineNumberView.setAdapter(adapter);
-            lineNumberView.setThreshold(1);
-        } else {
-            Toast.makeText(this, "Błąd podczas ładowania danych linii", Toast.LENGTH_SHORT).show();
-        }
-
-        List<String> stopNames = JsonUtils.loadStopNamesFromJson(this);
-        if (stopNames != null) {
-            Set<String> uniqueStopNames = new HashSet<>(stopNames);
-            ArrayAdapter<String> stopAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueStopNames));
-            busStopView.setAdapter(stopAdapter);
-            busStopView.setThreshold(1);
-        } else {
-            Toast.makeText(this, "Błąd podczas ładowania danych przystanków", Toast.LENGTH_SHORT).show();
-        }
+        setupLineAutoComplete(lineNumberView, busStopView);
+        setupBusStopAutoComplete(busStopView, lineNumberView);
 
 
         /*-----URUCHAMIANIE WIDEO-----*/
@@ -172,6 +167,115 @@ public class lineSearch extends AppCompatActivity implements NavigationView.OnNa
             GoTo_LineResult(v); // Wywołanie metody wyszukiwania
             return true;
         });
+    }
+
+    private void setupLineAutoComplete(AutoCompleteTextView lineNumberView, AutoCompleteTextView busStopView) {
+        List<String> lineNumbers = JsonUtils.loadLineNumbersFromJson(this);
+
+        if (lineNumbers != null) {
+            // Usunięcie duplikatów za pomocą LinkedHashSet
+            Set<String> uniqueLineNumbers = new LinkedHashSet<>(lineNumbers);
+
+            // Ustawienie adaptera z unikalnymi wartościami
+            lineNumberView.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueLineNumbers)));
+            lineNumberView.setThreshold(1);
+        }
+
+        lineNumberView.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedLine = parent.getItemAtPosition(position).toString();
+            Toast.makeText(this, "Wybrana linia: " + selectedLine, Toast.LENGTH_SHORT).show();
+
+            // Zaktualizuj autopodpowiedzi dla przystanków na podstawie wybranej linii
+            if (isLineInLines2(selectedLine)) {
+                List<String> validStops = getStopsForLine(selectedLine);
+
+                // Usunięcie duplikatów z listy przystanków
+                Set<String> uniqueStops = new LinkedHashSet<>(validStops);
+
+                busStopView.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueStops)));
+            } else {
+                // Resetuj do standardowych przystanków
+                List<String> stopNames = JsonUtils.loadStopNamesFromJson(this);
+
+                // Usunięcie duplikatów z listy przystanków
+                Set<String> uniqueStopNames = new LinkedHashSet<>(stopNames);
+
+                busStopView.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueStopNames)));
+            }
+        });
+    }
+
+
+    private void setupBusStopAutoComplete(AutoCompleteTextView busStopView, AutoCompleteTextView lineNumberView) {
+        List<String> stopNames = JsonUtils.loadStopNamesFromJson(this);
+
+        if (stopNames != null) {
+            // Usunięcie duplikatów za pomocą LinkedHashSet
+            Set<String> uniqueStopNames = new LinkedHashSet<>(stopNames);
+
+            // Ustawienie adaptera z unikalnymi wartościami
+            busStopView.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueStopNames)));
+            busStopView.setThreshold(1);
+        }
+
+        busStopView.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedStop = parent.getItemAtPosition(position).toString();
+            Toast.makeText(this, "Wybrany przystanek: " + selectedStop, Toast.LENGTH_SHORT).show();
+
+            // Zaktualizuj autopodpowiedzi dla linii na podstawie wybranego przystanku
+            if (isStopInStops2(selectedStop)) {
+                List<String> validLines = getLinesForStop(selectedStop);
+
+                // Usunięcie duplikatów z listy linii
+                Set<String> uniqueLines = new LinkedHashSet<>(validLines);
+
+                lineNumberView.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueLines)));
+            } else {
+                // Resetuj do standardowych linii
+                List<String> lineNumbers = JsonUtils.loadLineNumbersFromJson(this);
+
+                // Usunięcie duplikatów z listy linii
+                Set<String> uniqueLineNumbers = new LinkedHashSet<>(lineNumbers);
+
+                lineNumberView.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, new ArrayList<>(uniqueLineNumbers)));
+            }
+        });
+    }
+
+
+    private boolean isStopInStops2(String stopName) {
+        // Sprawdź, czy przystanek istnieje w stops_2.json
+        return stops2.stream().anyMatch(stop -> stop.get("name").equals(stopName));
+    }
+
+    private boolean isLineInLines2(String lineName) {
+        // Sprawdź, czy linia istnieje w lines_2.json
+        return lines2.stream().anyMatch(line -> line.get("name").equals(lineName));
+    }
+
+    private List<String> getLinesForStop(String stopName) {
+        // Pobierz listę linii dla danego przystanku z stops_2.json
+        return stops2.stream()
+                .filter(stop -> stop.get("name").equals(stopName))
+                .flatMap(stop -> ((List<String>) stop.get("lines")).stream())
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getStopsForLine(String lineName) {
+        // Pobierz listę przystanków dla danej linii z lines_2.json
+        return lines2.stream()
+                .filter(line -> line.get("name").equals(lineName))
+                .flatMap(line -> ((List<String>) line.get("stops")).stream())
+                .collect(Collectors.toList());
+    }
+
+    private List<Map<String, Object>> loadFromFile(String fileName) {
+        try (InputStreamReader reader = new InputStreamReader(openFileInput(fileName))) {
+            return new Gson().fromJson(reader, new TypeToken<List<Map<String, Object>>>() {}.getType());
+        } catch (Exception e) {
+            Log.e("ERROR", "Błąd wczytywania pliku: " + fileName, e);
+            return new ArrayList<>();
+        }
     }
 
 
