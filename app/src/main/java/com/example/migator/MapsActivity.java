@@ -304,6 +304,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void displayStopDetails(Marker marker) {
         String stopName = marker.getTitle();
         LatLng stopPosition = marker.getPosition();
+        String number = marker.getSnippet();
+        String stopNumber = number.replace("Numer: ", "");
 
         TextView stopNameView = findViewById(R.id.stop_name);
         stopNameView.setText(stopName);
@@ -313,6 +315,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         findViewById(R.id.view_schedule_button).setOnClickListener(v -> {
             Intent intent = new Intent(MapsActivity.this, busStopResult.class);
             intent.putExtra("BusStopName", stopName);
+            intent.putExtra("stopNumber", stopNumber);
             startActivity(intent);
         });
 
