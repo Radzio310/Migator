@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +71,38 @@ public class findStopUtils {
         }
     }
 
-    public static Pair<String, String> findStopInfo(Context context, String inputName) {
+    public static List<Pair<String, String>> findStopInfo(Context context, String inputName) {
+        List<Stop> stops = loadStops(context);
+        if (stops == null) {
+            return null;
+        }
+
+        List<Pair<String, String>> matchingStops = new ArrayList<>();
+
+        // 1st search: exact match
+        for (Stop stop : stops) {
+            if (stop.getName().equalsIgnoreCase(inputName)) {
+                matchingStops.add(new Pair<>(stop.getName(), stop.getNumber()));
+            }
+        }
+
+        // If exact matches are found, return them
+        if (!matchingStops.isEmpty()) {
+            return matchingStops;
+        }
+
+        // 2nd search: partial match
+        for (Stop stop : stops) {
+            if (stop.getName().toLowerCase().contains(inputName.toLowerCase())) {
+                matchingStops.add(new Pair<>(stop.getName(), stop.getNumber()));
+            }
+        }
+
+        // Return matching stops or null if none found
+        return matchingStops.isEmpty() ? null : matchingStops;
+    }
+
+    public static Pair<String, String> findStopInfoSingle(Context context, String inputName) {
         List<Stop> stops = loadStops(context);
         if (stops == null) {
             return null;
@@ -94,6 +124,49 @@ public class findStopUtils {
 
         // not found
         return null;
+    }
+
+    public static List<Pair<Double, Double>> findGeoInfo(Context context, String inputName) {
+        List<Stop> stops = loadStops(context);
+        List<Pair<Double, Double>> result = new ArrayList<>();
+        if (stops == null) {
+            return result; // Zwracamy pustą listę, jeśli nie ma przystanków
+        }
+
+        // 1st search - dokładne dopasowanie
+        for (Stop stop : stops) {
+            if (stop.getName().equalsIgnoreCase(inputName)) {
+                result.add(new Pair<>(stop.latitude, stop.longitude));
+            }
+        }
+
+        // 2nd search - dopasowanie częściowe
+        for (Stop stop : stops) {
+            if (stop.getName().toLowerCase().contains(inputName.toLowerCase()) && !result.contains(new Pair<>(stop.latitude, stop.longitude))) {
+                result.add(new Pair<>(stop.latitude, stop.longitude));
+            }
+        }
+
+        return result; // Zwracamy listę wyników
+    }
+
+    public static Pair<Double, Double> findGeoInfoByNumber(Context context, String number) {
+        List<Stop> stops = loadStops(context);
+        Pair<Double, Double> result = null;
+
+        if (stops == null) {
+            return result;
+        }
+
+        // 1st search - dokładne dopasowanie
+        for (Stop stop : stops) {
+            if (stop.getNumber().equalsIgnoreCase(number)) {
+                result = new Pair<>(stop.latitude, stop.longitude);
+                break;
+            }
+        }
+
+        return result;
     }
 
     public static String findLineInfo(Context context, String inputName) {

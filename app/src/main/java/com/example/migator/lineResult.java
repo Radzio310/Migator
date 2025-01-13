@@ -2,7 +2,6 @@ package com.example.migator;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +31,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -90,7 +88,7 @@ public class lineResult extends AppCompatActivity implements NavigationView.OnNa
         navigationView.setCheckedItem(R.id.nav_searchLine);
 
         // get number and name of busstop
-        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, getIntent().getStringExtra("BusStopName"));
+        Pair<String, String> stopInfo = findStopUtils.findStopInfoSingle(this, getIntent().getStringExtra("BusStopName"));
         line_number = getIntent().getStringExtra("BusLineName");
 
         if (stopInfo != null) {

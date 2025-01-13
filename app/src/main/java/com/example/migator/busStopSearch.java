@@ -2,6 +2,8 @@ package com.example.migator;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -197,7 +199,27 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
         Intent intent = new Intent(this, busStopResult.class);
 
         String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
-        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+        List<Pair<String, String>> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+
+
+
+        if (busStopName.isEmpty()) {
+            Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
+        } else if (stopInfo == null) {
+            Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
+        } else if (stopInfo.size() >= 2) {
+             GoTo_directionChoice(v);
+        } else {
+            intent.putExtra("BusStopName", busStopName);
+            startActivity(intent);
+        }
+    }
+
+    public void GoTo_directionChoice(View v) {
+        Intent intent = new Intent(this, directionChoice.class);
+
+        String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
+        List<Pair<String, String>> stopInfo = findStopUtils.findStopInfo(this, busStopName);
 
         if (busStopName.isEmpty()) {
             Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
@@ -212,22 +234,40 @@ public class busStopSearch extends AppCompatActivity implements NavigationView.O
     public void GoTo_Naviagtion(View v) {
         String busStopName = ((EditText) findViewById(R.id.busStopName)).getText().toString();
         busStopName = busStopName.trim();
-        Pair<String, String> stopInfo = findStopUtils.findStopInfo(this, busStopName);
+
+        // Znajdujemy informacje o przystankach
+        List<Pair<Double, Double>> geoInfoList = findStopUtils.findGeoInfo(this, busStopName);
 
         if (busStopName.isEmpty()) {
             Toast.makeText(this, "Nie podano nazwy przystanku.", Toast.LENGTH_SHORT).show();
-        } else if (stopInfo == null) {
+            return;
+        }
+
+        if (geoInfoList.isEmpty()) {
             Toast.makeText(this, "Nie znaleziono takiego przystanku.", Toast.LENGTH_SHORT).show();
-        } else {
-            String name = stopInfo.first;
-            // Alternatywne URI (żeby się włączało w trybie pieszym)
+            return;
+        }
+
+        // Jeśli tylko 1 przystanek, od razu przekierowujemy do nawigacji
+        if (geoInfoList.size() == 1) {
+            Pair<Double, Double> geoInfo = geoInfoList.get(0);
+            String latitude = geoInfo.first.toString();
+            String longitude = geoInfo.second.toString();
+
+            // Budowanie URL do Google Maps w trybie pieszym
             Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" +
-                    Uri.encode("Szczecin, przystanek autobusowy " + name) +
+                    Uri.encode(latitude + ", " + longitude) +
                     "&travelmode=walking");
 
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
+        } else {
+            // Jeśli więcej niż jeden przystanek, przekierowujemy użytkownika do wyboru kierunku
+            Intent intent = new Intent(this, directionChoice.class);
+            intent.putExtra("BusStopName", busStopName);
+            intent.putExtra("navigationFlag", true);  // Flaga informująca o nawigacji
+            startActivity(intent);
         }
     }
 

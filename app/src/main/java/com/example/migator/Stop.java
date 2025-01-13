@@ -19,4 +19,10 @@ public class Stop {
         return name;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+    public double getLongitude() {
+        return longitude;
+    }
 }
